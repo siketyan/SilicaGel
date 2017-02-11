@@ -17,6 +17,16 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 - Twitter4j Media Support 4.0.4
 （ビルド時のみ。APKからのインストールには必要ありません。）
 
+## Building
+app/src/main/res/values/strings.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="consumer_key"><!-- Twitter Consumer Key --></string>
+    <string name="consumer_secret"><!-- Twitter Consumer Secret --></string>
+</resources>
+```
+
 ## Compatibility for Other Player
 プレイヤーによっては、NotificationService.java内のPACKAGE_FILTERフィールドを変更するだけで動くかもしれません。
 動かない場合は適当にソースコードを改変してみてください。
