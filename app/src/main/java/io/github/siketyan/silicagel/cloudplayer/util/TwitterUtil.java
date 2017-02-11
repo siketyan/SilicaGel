@@ -10,13 +10,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
-    private static final String CONSUMER_KEY = SettingsActivity.getContext().getString(R.string.consumer_key);
-    private static final String CONSUMER_SECRET = SettingsActivity.getContext().getString(R.string.consumer_secret);
-    
     public static Twitter getTwitterInstance(Context context) {
         TwitterFactory factory = new TwitterFactory();
         Twitter twitter = factory.getInstance();
-        twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+        twitter.setOAuthConsumer(TwitterApi.CONSUMER_KEY, TwitterApi.CONSUMER_SECRET);
         
         if (hasAccessToken(context)) {
             twitter.setOAuthAccessToken(loadAccessToken(context));

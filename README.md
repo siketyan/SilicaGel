@@ -18,13 +18,14 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 （ビルド時のみ。APKからのインストールには必要ありません。）
 
 ## Building
-app/src/main/res/values/strings.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="consumer_key"><!-- Twitter Consumer Key --></string>
-    <string name="consumer_secret"><!-- Twitter Consumer Secret --></string>
-</resources>
+app/src/main/java/io/github/siketyan/silicagel/cloudplayer/util/TwitterApi.java
+```java
+package io.github.siketyan.silicagel.cloudplayer.util;
+
+public class TwitterApi {
+    static final String CONSUMER_KEY = ""; // YOUR CONSUMER KEY
+    static final String CONSUMER_SECRET = ""; // YOUR CONSUMER SECRET
+}
 ```
 
 ## Compatibility for Other Player
