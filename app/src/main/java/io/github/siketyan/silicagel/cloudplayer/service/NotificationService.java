@@ -121,6 +121,11 @@ public class NotificationService extends NotificationListenerService {
         return onUnbind;
     }
 
+    @Override
+    public void onDestroy() {
+        startService(new Intent(this, NotificationService.class));
+    }
+
     private static void notifyException(Exception e){
         ((NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE))
             .notify(
