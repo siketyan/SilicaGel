@@ -9,4 +9,5 @@
     <string name="twitter_authorizing">認証しています…</string>
     <string name="twitter_authorized">認証しました。</string>
     <string name="twitter_failed">認証できませんでした。</string>
+    <string name="twitter_already">すでに認証が完了しています。</string>
 </resources>

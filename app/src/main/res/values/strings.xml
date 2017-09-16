@@ -9,4 +9,5 @@
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
     <string name="twitter_failed">Failed to authorize your account.</string>
+    <string name="twitter_already">Already authorized.</string>
 </resources>
