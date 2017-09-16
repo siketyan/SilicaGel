@@ -17,7 +17,6 @@ import io.github.siketyan.silicagel.cloudplayer.R;
 import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,6 +40,9 @@ public class NotificationService extends NotificationListenerService {
         if (!sbn.getPackageName().equals(PACKAGE_FILTER)) return;
 
         try {
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            if (!pref.getBoolean("monitor_notifications", true)) return;
+
             final Bundle extras;
             String title, artist, album;
             try {
@@ -55,7 +57,6 @@ public class NotificationService extends NotificationListenerService {
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
 
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
@@ -64,11 +65,11 @@ public class NotificationService extends NotificationListenerService {
             if (tweetText.equals(previous)) return;
             previous = tweetText;
 
-            final Twitter twitter = TwitterUtil.getTwitterInstance(this);
             AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
                 @Override
                 protected Boolean doInBackground(String... params) {
                     try {
+                        Twitter twitter = TwitterUtil.getTwitterInstance(getInstance());
                         ByteArrayInputStream bs = null;
                         if (pref.getBoolean("with_cover", false)) {
                             try {
@@ -87,20 +88,18 @@ public class NotificationService extends NotificationListenerService {
                             twitter.updateStatus(params[0]);
                         }
 
+                        Log.d(LOG_TAG, "[Tweeted] " + params[0]);
                         return true;
-                    } catch (TwitterException e) {
+                    } catch (Exception e) {
                         notifyException(e);
+
+                        Log.d(LOG_TAG, "[Error] Failed to tweet.");
                         return false;
                     }
                 }
             };
 
             task.execute(tweetText);
-            if (task.get()) {
-                Log.d(LOG_TAG, "[Tweeted] " + tweetText);
-            } else {
-                Log.d(LOG_TAG, "[Error] Failed to tweet.");
-            }
         } catch (Exception e) {
             notifyException(e);
         }

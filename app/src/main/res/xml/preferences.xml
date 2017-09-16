@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference android:key="monitor_notifications"
+                      android:title="通知を監視する"
+                      android:defaultValue="true" />
     <Preference android:key="twitter_auth"
                 android:title="Twitterの認証" />
     <EditTextPreference android:key="template"
