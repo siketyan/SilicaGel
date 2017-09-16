@@ -1,12 +1,12 @@
-package io.github.siketyan.silicagel.cloudplayer.fragment;
+package me.siketyan.silicagel.cloudplayer.fragment;
 
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import io.github.siketyan.silicagel.cloudplayer.R;
-import io.github.siketyan.silicagel.cloudplayer.activity.SettingsActivity;
-import io.github.siketyan.silicagel.cloudplayer.activity.TwitterAuthActivity;
-import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.cloudplayer.R;
+import me.siketyan.silicagel.cloudplayer.activity.SettingsActivity;
+import me.siketyan.silicagel.cloudplayer.activity.TwitterAuthActivity;
+import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 
 public class SettingsFragment extends PreferenceFragment {
     @Override
