@@ -43,10 +43,10 @@ public class TwitterAuthActivity extends Activity {
             @Override
             protected void onPostExecute(AccessToken accessToken) {
                 if (accessToken != null) {
-                    showToast("Twitterの認証を完了しました。");
+                    showToast(getString(R.string.twitter_authorized));
                     TwitterUtil.storeAccessToken(SettingsActivity.getContext(), accessToken);
                 } else {
-                    showToast("Twitterの認証に失敗しました。");
+                    showToast(getString(R.string.twitter_failed));
                 }
             
                 startActivity(new Intent(TwitterAuthActivity.this, SettingsActivity.class));

@@ -6,4 +6,7 @@
     <string name="with_cover">Tweet with album artwork</string>
     <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name</string>
     <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #Auto</string>
+    <string name="twitter_authorizing">Authorizing…</string>
+    <string name="twitter_authorized">Authorized your account.</string>
+    <string name="twitter_failed">Failed to authorize your account.</string>
 </resources>

@@ -6,4 +6,7 @@
     <string name="with_cover">アルバムアートワークを添付してツイートする</string>
     <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #自動</string>
     <string name="template_dialog" formatted="false">%title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名</string>
+    <string name="twitter_authorizing">認証しています…</string>
+    <string name="twitter_authorized">認証しました。</string>
+    <string name="twitter_failed">認証できませんでした。</string>
 </resources>
