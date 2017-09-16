@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference android:key="monitor_notifications"
+                      android:title="@string/monitor_notifications"
+                      android:defaultValue="true" />
     <Preference android:key="twitter_auth"
-                android:title="Twitterの認証" />
+                android:title="@string/twitter_auth" />
     <EditTextPreference android:key="template"
-                        android:title="ツイートテンプレートの編集"
-                        android:defaultValue="%title% - %artist%\n#NowPlaying #自動"
-                        android:dialogMessage="%title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名" />
+                        android:title="@string/edit_template"
+                        android:defaultValue="@string/template_default"
+                        android:dialogMessage="@string/template_dialog" />
     <SwitchPreference android:key="with_cover"
-                      android:title="アルバムアートをつけてツイート"
+                      android:title="@string/with_cover"
                       android:defaultValue="true" />
 </PreferenceScreen>

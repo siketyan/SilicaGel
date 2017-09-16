@@ -1,16 +1,14 @@
-package io.github.siketyan.silicagel.cloudplayer.activity;
+package me.siketyan.silicagel.cloudplayer.activity;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import io.github.siketyan.silicagel.cloudplayer.fragment.SettingsFragment;
-import io.github.siketyan.silicagel.cloudplayer.service.NotificationService;
-import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.cloudplayer.fragment.SettingsFragment;
+import me.siketyan.silicagel.cloudplayer.service.NotificationService;
+import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
@@ -35,7 +33,7 @@ public class SettingsActivity extends Activity {
                             .replace(android.R.id.content, fragment)
                             .commit();
     
-        if (!isServiceRunning()) {
+        if (!NotificationService.isNotificationAccessEnabled) {
             startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         }
     }
@@ -63,17 +61,6 @@ public class SettingsActivity extends Activity {
         };
         
         task.execute();
-    }
-    
-    private boolean isServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (NotificationService.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     public static SettingsActivity getContext() {

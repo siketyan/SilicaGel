@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="monitor_notifications">Monitor notifications</string>
+    <string name="twitter_auth">Authorize Twitter account</string>
+    <string name="edit_template">Edit template of Tweets</string>
+    <string name="with_cover">Tweet with album artwork</string>
+    <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name</string>
+    <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #Auto</string>
+    <string name="twitter_authorizing">Authorizing…</string>
+    <string name="twitter_authorized">Authorized your account.</string>
+    <string name="twitter_failed">Failed to authorize your account.</string>
+</resources>

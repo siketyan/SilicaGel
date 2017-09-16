@@ -1,10 +1,10 @@
-package io.github.siketyan.silicagel.cloudplayer.util;
+package me.siketyan.silicagel.cloudplayer.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import io.github.siketyan.silicagel.cloudplayer.R;
-import io.github.siketyan.silicagel.cloudplayer.activity.SettingsActivity;
+import me.siketyan.silicagel.cloudplayer.R;
+import me.siketyan.silicagel.cloudplayer.activity.SettingsActivity;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
