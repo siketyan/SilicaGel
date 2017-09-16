@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
 import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -17,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 public class NotificationService extends NotificationListenerService {
+    private static final String LOG_TAG = "SGfCP";
     private static final String PACKAGE_FILTER = "com.doubleTwist.cloudPlayer";
     private String previous;
     
@@ -28,6 +30,8 @@ public class NotificationService extends NotificationListenerService {
         String title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
         String artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
         String album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
+
+        Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
     
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String tweetText = pref.getString("template", "")
@@ -65,5 +69,6 @@ public class NotificationService extends NotificationListenerService {
         };
         
         task.execute(tweetText);
+        Log.d(LOG_TAG, "[Tweeted] " + tweetText);
     }
 }
