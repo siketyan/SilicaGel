@@ -1,8 +1,6 @@
 package io.github.siketyan.silicagel.cloudplayer.activity;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,7 +33,7 @@ public class SettingsActivity extends Activity {
                             .replace(android.R.id.content, fragment)
                             .commit();
     
-        if (!isServiceRunning()) {
+        if (!NotificationService.isNotificationAccessEnabled) {
             startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         }
     }
@@ -63,17 +61,6 @@ public class SettingsActivity extends Activity {
         };
         
         task.execute();
-    }
-    
-    private boolean isServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (NotificationService.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     public static SettingsActivity getContext() {

@@ -21,7 +21,6 @@ import twitter4j.TwitterException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
@@ -30,6 +29,7 @@ public class NotificationService extends NotificationListenerService {
     private static final String LOG_TAG = "SGfCP";
     private static final String PACKAGE_FILTER = "com.doubleTwist.cloudPlayer";
 
+    public static boolean isNotificationAccessEnabled = false;
     private String previous;
 
     public NotificationService() {
@@ -104,6 +104,22 @@ public class NotificationService extends NotificationListenerService {
         } catch (Exception e) {
             notifyException(e);
         }
+    }
+
+    @Override
+    public IBinder onBind(Intent i) {
+        IBinder binder = super.onBind(i);
+        Log.d(LOG_TAG, "[Service] Enabled notification access.");
+        isNotificationAccessEnabled = true;
+        return binder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent i) {
+        boolean onUnbind = super.onUnbind(i);
+        Log.d(LOG_TAG, "[Service] Disabled notification access.");
+        isNotificationAccessEnabled = false;
+        return onUnbind;
     }
 
     private static void notifyException(Exception e){
