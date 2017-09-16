@@ -1,12 +1,12 @@
-package io.github.siketyan.silicagel.cloudplayer.activity;
+package me.siketyan.silicagel.cloudplayer.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
-import io.github.siketyan.silicagel.cloudplayer.R;
-import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.cloudplayer.R;
+import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 

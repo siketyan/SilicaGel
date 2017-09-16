@@ -1,4 +1,4 @@
-package io.github.siketyan.silicagel.cloudplayer.service;
+package me.siketyan.silicagel.cloudplayer.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -13,8 +13,8 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import io.github.siketyan.silicagel.cloudplayer.R;
-import io.github.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.cloudplayer.R;
+import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
