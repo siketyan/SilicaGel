@@ -19,7 +19,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public boolean onPreferenceClick(Preference pref) {
                         if (TwitterUtil.hasAccessToken(SettingsActivity.getContext())) {
-                            TwitterAuthActivity.showToast("既に認証済みです。");
+                            TwitterAuthActivity.showToast(getString(R.string.twitter_already));
                             return true;
                         }
     
