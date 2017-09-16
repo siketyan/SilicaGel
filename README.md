@@ -18,9 +18,9 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 （ビルド時のみ。APKからのインストールには必要ありません。）
 
 ## Building
-app/src/main/java/io/github/siketyan/silicagel/cloudplayer/util/TwitterApi.java
+app/src/main/java/me/siketyan/silicagel/cloudplayer/util/TwitterApi.java
 ```java
-package io.github.siketyan.silicagel.cloudplayer.util;
+package me.siketyan.silicagel.cloudplayer.util;
 
 public class TwitterApi {
     static final String CONSUMER_KEY = ""; // YOUR CONSUMER KEY
