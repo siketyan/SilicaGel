@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="monitor_notifications">通知を監視する</string>
+    <string name="twitter_auth">Twitterアカウントの認証</string>
+    <string name="edit_template">ツイートテンプレートの編集</string>
+    <string name="with_cover">アルバムアートワークを添付してツイートする</string>
+    <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #自動</string>
+    <string name="template_dialog" formatted="false">%title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名</string>
+</resources>
