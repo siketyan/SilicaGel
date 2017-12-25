@@ -1,4 +1,4 @@
-package me.siketyan.silicagel.cloudplayer.service;
+package me.siketyan.silicagel.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -13,8 +13,8 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import me.siketyan.silicagel.cloudplayer.R;
-import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
@@ -25,7 +25,7 @@ public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
     private static final int NOTIFICATION_ID = 114514;
-    private static final String LOG_TAG = "SGfCP";
+    private static final String LOG_TAG = "SilicaGel";
     private static final String PACKAGE_FILTER = "com.doubleTwist.cloudPlayer";
 
     public static boolean isNotificationAccessEnabled = false;
