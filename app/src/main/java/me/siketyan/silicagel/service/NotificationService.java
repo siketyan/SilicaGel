@@ -76,13 +76,18 @@ public class NotificationService extends NotificationListenerService {
                         ByteArrayInputStream bs = null;
                         if (pref.getBoolean("with_cover", false)) {
                             try {
+                                Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
+                                if (thumb == null)
+                                    thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
+
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                ((Bitmap) extras.get(Notification.EXTRA_LARGE_ICON))
-                                    .compress(Bitmap.CompressFormat.PNG, 0, bos);
+                                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
 
                                 byte[] bitmap = bos.toByteArray();
                                 bs = new ByteArrayInputStream(bitmap);
-                            } catch (Exception ignored) {}
+                            } catch (Exception e) {
+                                notifyException(e);
+                            }
                         }
 
                         if (bs != null) {
@@ -95,6 +100,7 @@ public class NotificationService extends NotificationListenerService {
                         return true;
                     } catch (Exception e) {
                         notifyException(e);
+                        e.printStackTrace();
 
                         Log.d(LOG_TAG, "[Error] Failed to tweet.");
                         return false;
@@ -135,8 +141,9 @@ public class NotificationService extends NotificationListenerService {
                 NOTIFICATION_ID,
                 new Notification.Builder(getInstance())
                     .setSmallIcon(R.drawable.ic_error_black_24dp)
-                    .setContentTitle(e.toString())
-                    .setContentText(implode(e.getStackTrace(), "\n"))
+                    .setContentTitle("Error!")
+                    .setContentText(e.toString())
+                    .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
                     .build()
             );
     }
