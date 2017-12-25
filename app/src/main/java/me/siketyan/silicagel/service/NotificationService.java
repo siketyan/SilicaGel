@@ -1,4 +1,4 @@
-package me.siketyan.silicagel.cloudplayer.service;
+package me.siketyan.silicagel.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -13,8 +13,8 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import me.siketyan.silicagel.cloudplayer.R;
-import me.siketyan.silicagel.cloudplayer.util.TwitterUtil;
+import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
@@ -25,8 +25,10 @@ public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
     private static final int NOTIFICATION_ID = 114514;
-    private static final String LOG_TAG = "SGfCP";
-    private static final String PACKAGE_FILTER = "com.doubleTwist.cloudPlayer";
+    private static final String LOG_TAG = "SilicaGel";
+    private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
+    private static final String FILTER_PLAYMUSIC = "com.google.android.music";
+    private static final String FILTER_SPOTIFY = "com.spotify.music";
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
@@ -37,7 +39,10 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        if (!sbn.getPackageName().equals(PACKAGE_FILTER)) return;
+        String packageName = sbn.getPackageName();
+        if (!packageName.equals(FILTER_CLOUDPLAYER) &&
+            !packageName.equals(FILTER_PLAYMUSIC) &&
+            !packageName.equals(FILTER_SPOTIFY)) return;
 
         try {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -73,13 +78,18 @@ public class NotificationService extends NotificationListenerService {
                         ByteArrayInputStream bs = null;
                         if (pref.getBoolean("with_cover", false)) {
                             try {
+                                Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
+                                if (thumb == null)
+                                    thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
+
                                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                ((Bitmap) extras.get(Notification.EXTRA_LARGE_ICON))
-                                    .compress(Bitmap.CompressFormat.PNG, 0, bos);
+                                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
 
                                 byte[] bitmap = bos.toByteArray();
                                 bs = new ByteArrayInputStream(bitmap);
-                            } catch (Exception ignored) {}
+                            } catch (Exception e) {
+                                notifyException(e);
+                            }
                         }
 
                         if (bs != null) {
@@ -92,6 +102,7 @@ public class NotificationService extends NotificationListenerService {
                         return true;
                     } catch (Exception e) {
                         notifyException(e);
+                        e.printStackTrace();
 
                         Log.d(LOG_TAG, "[Error] Failed to tweet.");
                         return false;
@@ -132,8 +143,9 @@ public class NotificationService extends NotificationListenerService {
                 NOTIFICATION_ID,
                 new Notification.Builder(getInstance())
                     .setSmallIcon(R.drawable.ic_error_black_24dp)
-                    .setContentTitle(e.toString())
-                    .setContentText(implode(e.getStackTrace(), "\n"))
+                    .setContentTitle("Error!")
+                    .setContentText(e.toString())
+                    .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
                     .build()
             );
     }

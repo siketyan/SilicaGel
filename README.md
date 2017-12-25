@@ -1,4 +1,4 @@
-# SilicaGel-for-CloudPlayer
+# SilicaGel
 CloudPlayerの通知から曲の情報を取得し、今再生している曲についてツイートします。
 
 ## How to Use
@@ -10,27 +10,28 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 
 ## Notes
 - このソフトウェアを利用したことでいかなる損害が発生しても、製作者は責任を負いません。
-- このソフトウェアはdoubleTwist社のCloudPlayer向けに製作しています。
+
+## Compatible Players
+- doubleTwist CloudPlayer
+- Google Play Music
+- Spotify
 
 ## Required Libraries
 - Twitter4j Core 4.0.4
 - Twitter4j Media Support 4.0.4
+
 （ビルド時のみ。APKからのインストールには必要ありません。）
 
 ## Building
-app/src/main/java/me/siketyan/silicagel/cloudplayer/util/TwitterApi.java
+app/src/main/java/me/siketyan/silicagel/util/TwitterApi.java
 ```java
-package me.siketyan.silicagel.cloudplayer.util;
+package me.siketyan.silicagel.util;
 
 public class TwitterApi {
     static final String CONSUMER_KEY = ""; // YOUR CONSUMER KEY
     static final String CONSUMER_SECRET = ""; // YOUR CONSUMER SECRET
 }
 ```
-
-## Compatibility for Other Player
-プレイヤーによっては、NotificationService.java内のPACKAGE_FILTERフィールドを変更するだけで動くかもしれません。
-動かない場合は適当にソースコードを改変してみてください。
 
 ## License
 このソフトウェアはMITライセンスでリリースされています。
