@@ -28,6 +28,7 @@ public class NotificationService extends NotificationListenerService {
     private static final String LOG_TAG = "SilicaGel";
     private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
     private static final String FILTER_PLAYMUSIC = "com.google.android.music";
+    private static final String FILTER_SPOTIFY = "com.spotify.music";
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
@@ -40,7 +41,8 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         String packageName = sbn.getPackageName();
         if (!packageName.equals(FILTER_CLOUDPLAYER) &&
-            !packageName.equals(FILTER_PLAYMUSIC)) return;
+            !packageName.equals(FILTER_PLAYMUSIC) &&
+            !packageName.equals(FILTER_SPOTIFY)) return;
 
         try {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
