@@ -20,6 +20,7 @@ import twitter4j.Twitter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
@@ -48,16 +49,25 @@ public class NotificationService extends NotificationListenerService {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             if (!pref.getBoolean("monitor_notifications", true)) return;
 
-            final Bundle extras;
-            String title, artist, album;
+            final Bundle extras = sbn.getNotification().extras;
+            String title = "";
+            String artist = "";
+            String album = "";
+
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            int second = calendar.get(Calendar.SECOND);
+
             try {
-                extras = sbn.getNotification().extras;
                 title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                 artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
                 album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
             } catch (NullPointerException e) {
                 Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
-                return;
             }
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
@@ -65,7 +75,13 @@ public class NotificationService extends NotificationListenerService {
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
-                    .replaceAll("%album%", album);
+                    .replaceAll("%album%", album)
+                    .replaceAll("%y%", String.format("%4d", year))
+                    .replaceAll("%m%", String.format("%2d", month))
+                    .replaceAll("%d%", String.format("%2d", day))
+                    .replaceAll("%h%", String.format("%02d", hour))
+                    .replaceAll("%i%", String.format("%02d", minute))
+                    .replaceAll("%s%", String.format("%02d", second));
 
             if (tweetText.equals(previous)) return;
             previous = tweetText;
