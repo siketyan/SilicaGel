@@ -49,15 +49,16 @@ public class NotificationService extends NotificationListenerService {
             if (!pref.getBoolean("monitor_notifications", true)) return;
 
             final Bundle extras;
-            String title, artist, album;
+            String title = "";
+            String artist = "";
+            String album = "";
+            extras = sbn.getNotification().extras;
             try {
-                extras = sbn.getNotification().extras;
                 title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                 artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
                 album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
             } catch (NullPointerException e) {
                 Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
-                return;
             }
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
