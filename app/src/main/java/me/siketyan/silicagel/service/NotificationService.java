@@ -70,6 +70,8 @@ public class NotificationService extends NotificationListenerService {
                 Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
             }
 
+            if(title == null || title.isEmpty()) return;
+
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
 
             String tweetText = pref.getString("template", "")
