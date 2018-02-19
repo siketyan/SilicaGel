@@ -66,11 +66,11 @@ public class NotificationService extends NotificationListenerService {
                 title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                 artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
                 album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
-
-                if(title == null) return;
             } catch (NullPointerException e) {
                 Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
             }
+
+            if(title == null || title.isEmpty()) return;
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
 
