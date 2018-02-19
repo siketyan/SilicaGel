@@ -48,11 +48,11 @@ public class NotificationService extends NotificationListenerService {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             if (!pref.getBoolean("monitor_notifications", true)) return;
 
-            final Bundle extras;
+            final Bundle extras = sbn.getNotification().extras;
             String title = "";
             String artist = "";
             String album = "";
-            extras = sbn.getNotification().extras;
+
             try {
                 title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                 artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
