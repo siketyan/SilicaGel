@@ -20,6 +20,7 @@ import twitter4j.Twitter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
@@ -53,6 +54,14 @@ public class NotificationService extends NotificationListenerService {
             String artist = "";
             String album = "";
 
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            int second = calendar.get(Calendar.SECOND);
+
             try {
                 title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
                 artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
@@ -66,7 +75,13 @@ public class NotificationService extends NotificationListenerService {
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
-                    .replaceAll("%album%", album);
+                    .replaceAll("%album%", album)
+                    .replaceAll("%y%", String.format("%4d", year))
+                    .replaceAll("%m%", String.format("%2d", month))
+                    .replaceAll("%d%", String.format("%2d", day))
+                    .replaceAll("%h%", String.format("%02d", hour))
+                    .replaceAll("%i%", String.format("%02d", minute))
+                    .replaceAll("%s%", String.format("%02d", second));
 
             if (tweetText.equals(previous)) return;
             previous = tweetText;
