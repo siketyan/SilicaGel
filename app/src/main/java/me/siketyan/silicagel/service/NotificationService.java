@@ -77,16 +77,18 @@ public class NotificationService extends NotificationListenerService {
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
-                    .replaceAll("%album%", album)
+                    .replaceAll("%album%", album);
+
+            if (tweetText.equals(previous)) return;
+            previous = tweetText;
+
+            tweetText
                     .replaceAll("%y%", String.format("%4d", year))
                     .replaceAll("%m%", String.format("%2d", month))
                     .replaceAll("%d%", String.format("%2d", day))
                     .replaceAll("%h%", String.format("%02d", hour))
                     .replaceAll("%i%", String.format("%02d", minute))
                     .replaceAll("%s%", String.format("%02d", second));
-
-            if (tweetText.equals(previous)) return;
-            previous = tweetText;
 
             AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
                 @Override
