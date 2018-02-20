@@ -14,6 +14,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.activity.SettingsActivity;
 import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -21,15 +22,26 @@ import twitter4j.Twitter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
+
+    private static final SettingsActivity settingActivity = SettingsActivity.getContext();
 
     private static final int NOTIFICATION_ID = 114514;
     private static final String LOG_TAG = "SilicaGel";
     private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
     private static final String FILTER_PLAYMUSIC = "com.google.android.music";
     private static final String FILTER_SPOTIFY = "com.spotify.music";
+
+    private static final HashMap<String, String> PLAYER_LIST = new HashMap<String, String>() {
+        {
+            put(FILTER_CLOUDPLAYER, settingActivity.getString(R.string.cloudplayer));
+            put(FILTER_PLAYMUSIC, settingActivity.getString(R.string.google_play_music));
+            put(FILTER_SPOTIFY, settingActivity.getString(R.string.spotify));
+        }
+    };
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
@@ -40,6 +52,8 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+
+        Log.d(LOG_TAG, "onNotificationPosted");
         String packageName = sbn.getPackageName();
         if (!packageName.equals(FILTER_CLOUDPLAYER) &&
             !packageName.equals(FILTER_PLAYMUSIC) &&
@@ -77,7 +91,8 @@ public class NotificationService extends NotificationListenerService {
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
-                    .replaceAll("%album%", album);
+                    .replaceAll("%album%", album)
+                    .replaceAll("%player%", PLAYER_LIST.get(packageName));
 
             if (tweetText.equals(previous)) return;
             previous = tweetText;
