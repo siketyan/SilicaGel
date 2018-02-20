@@ -82,13 +82,14 @@ public class NotificationService extends NotificationListenerService {
             if (tweetText.equals(previous)) return;
             previous = tweetText;
 
-            tweetText
+            tweetText = tweetText
                     .replaceAll("%y%", String.format("%4d", year))
                     .replaceAll("%m%", String.format("%2d", month))
                     .replaceAll("%d%", String.format("%2d", day))
                     .replaceAll("%h%", String.format("%02d", hour))
                     .replaceAll("%i%", String.format("%02d", minute))
                     .replaceAll("%s%", String.format("%02d", second));
+            Log.d("tweetText", tweetText);
 
             AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
                 @Override
@@ -131,6 +132,7 @@ public class NotificationService extends NotificationListenerService {
             };
 
             task.execute(tweetText);
+
         } catch (Exception e) {
             notifyException(e);
         }
