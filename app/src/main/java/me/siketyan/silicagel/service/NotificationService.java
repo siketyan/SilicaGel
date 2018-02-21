@@ -176,7 +176,7 @@ public class NotificationService extends NotificationListenerService {
         return null;
     }
 
-    private static void notifyException(Context context, Exception e){
+    private static void notifyException(Context context, Exception e) {
         ((NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE))
             .notify(
                 NOTIFICATION_ID,
