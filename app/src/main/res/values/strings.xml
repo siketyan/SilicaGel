@@ -2,6 +2,7 @@
 <resources>
     <string name="general">General</string>
     <string name="monitor_notifications">Monitor notifications</string>
+    <string name="notify_tweeted">Notify finished tweeting with toast</string>
 
     <string name="authorization">Authorization</string>
     <string name="twitter_auth">Authorize Twitter account</string>
@@ -17,4 +18,5 @@
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
     <string name="twitter_failed">Failed to authorize your account.</string>
+    <string name="tweeted">Tweeted.</string>
 </resources>

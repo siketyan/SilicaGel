@@ -4,6 +4,9 @@
         <SwitchPreference android:key="monitor_notifications"
                           android:title="@string/monitor_notifications"
                           android:defaultValue="true" />
+        <SwitchPreference android:key="notify_tweeted"
+                          android:title="@string/notify_tweeted"
+                          android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/authorization">
         <Preference android:key="twitter_auth"

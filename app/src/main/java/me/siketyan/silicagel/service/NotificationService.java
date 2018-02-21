@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+import android.widget.Toast;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
@@ -127,6 +128,14 @@ public class NotificationService extends NotificationListenerService {
 
                         Log.d(LOG_TAG, "[Error] Failed to tweet.");
                         return false;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Boolean b) {
+                    if (pref.getBoolean("notify_tweeted", true)) {
+                        Toast.makeText(NotificationService.this, R.string.tweeted, Toast.LENGTH_SHORT)
+                             .show();
                     }
                 }
             };

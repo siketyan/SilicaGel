@@ -2,6 +2,7 @@
 <resources>
     <string name="general">一般</string>
     <string name="monitor_notifications">通知を監視する</string>
+    <string name="notify_tweeted">ツイート完了時にトーストで通知する</string>
 
     <string name="authorization">認証</string>
     <string name="twitter_auth">Twitterアカウントの認証</string>
@@ -17,4 +18,5 @@
     <string name="twitter_authorizing">認証しています…</string>
     <string name="twitter_authorized">認証しました。</string>
     <string name="twitter_failed">認証できませんでした。</string>
+    <string name="tweeted">ツイートしました。</string>
 </resources>
