@@ -21,29 +21,31 @@ import twitter4j.Twitter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
     private static final int NOTIFICATION_ID = 114514;
     private static final String LOG_TAG = "SilicaGel";
-    private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
-    private static final String FILTER_PLAYMUSIC = "com.google.android.music";
-    private static final String FILTER_SPOTIFY = "com.spotify.music";
+    private static final Map<String, String> PLAYERS = new HashMap<>();
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
 
     public NotificationService() {
         instance = this;
+
+        PLAYERS.put("CloudPlayer", "com.doubleTwist.cloudPlayer");
+        PLAYERS.put("Google Play Music", "com.google.android.music");
+        PLAYERS.put("Spotify", "com.spotify.music");
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        String packageName = sbn.getPackageName();
-        if (!packageName.equals(FILTER_CLOUDPLAYER) &&
-            !packageName.equals(FILTER_PLAYMUSIC) &&
-            !packageName.equals(FILTER_SPOTIFY)) return;
+        String player = getPlayer(sbn.getPackageName());
+        if (player == null) return;
 
         try {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -72,12 +74,13 @@ public class NotificationService extends NotificationListenerService {
 
             if(title == null || title.isEmpty()) return;
 
-            Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ")");
+            Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
 
             String tweetText = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
                     .replaceAll("%album%", album)
+                    .replaceAll("%player%", player)
                     .replaceAll("%y%", String.format("%4d", year))
                     .replaceAll("%m%", String.format("%2d", month))
                     .replaceAll("%d%", String.format("%2d", day))
@@ -153,6 +156,15 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onDestroy() {
         startService(new Intent(this, NotificationService.class));
+    }
+
+    private String getPlayer(String packageName) {
+        for (String player : PLAYERS.keySet()) {
+            if (!packageName.equals(PLAYERS.get(player))) continue;
+            return player;
+        }
+
+        return null;
     }
 
     private static void notifyException(Exception e){
