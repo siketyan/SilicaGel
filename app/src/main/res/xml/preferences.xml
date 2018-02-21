@@ -8,6 +8,9 @@
     <PreferenceCategory android:title="@string/authorization">
         <Preference android:key="twitter_auth"
                     android:title="@string/twitter_auth" />
+        <Preference android:key="delete_token"
+                    android:title="@string/delete_token"
+                    android:enabled="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/tweeting">
         <EditTextPreference android:key="template"

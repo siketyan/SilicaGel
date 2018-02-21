@@ -5,6 +5,7 @@
 
     <string name="authorization">認証</string>
     <string name="twitter_auth">Twitterアカウントの認証</string>
+    <string name="delete_token">トークンの削除</string>
 
     <string name="tweeting">ツイート</string>
     <string name="edit_template">ツイートテンプレートの編集</string>

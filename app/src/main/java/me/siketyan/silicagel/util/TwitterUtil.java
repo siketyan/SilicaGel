@@ -29,6 +29,14 @@ public class TwitterUtil {
         editor.putString("twitter_secret", accessToken.getTokenSecret());
         editor.apply();
     }
+
+    public static void deleteAccessToken(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("twitter_token");
+        editor.remove("twitter_secret");
+        editor.apply();
+    }
     
     private static AccessToken loadAccessToken(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

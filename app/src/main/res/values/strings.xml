@@ -5,6 +5,7 @@
 
     <string name="authorization">Authorization</string>
     <string name="twitter_auth">Authorize Twitter account</string>
+    <string name="delete_token">Delete authorized token</string>
 
     <string name="tweeting">Tweeting</string>
     <string name="edit_template">Edit template of Tweets</string>
