@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="general">General</string>
     <string name="monitor_notifications">Monitor notifications</string>
+    <string name="notify_tweeted">Notify finished tweeting with toast</string>
+
+    <string name="authorization">Authorization</string>
     <string name="twitter_auth">Authorize Twitter account</string>
+    <string name="delete_token">Delete authorized token</string>
+
+    <string name="tweeting">Tweeting</string>
     <string name="edit_template">Edit template of Tweets</string>
     <string name="with_cover">Tweet with album artwork</string>
-    <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name\n%y% - Year\n%m% - Month\n%d% - Day\n%h% - Hour\n%i% - Minute\n%s% - Second</string>
-    <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #Auto</string>
+
+    <string name="template_default" formatted="false">🎵 %title%\n🎙️ %artist%\n💿 %album%\n🎧 %player%\n#NowPlaying #Auto</string>
+    <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name\n%player% - Player name\n%y% - Year\n%m% - Month\n%d% - Day\n%h% - Hour\n%i% - Minute\n%s% - Second</string>
+
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
     <string name="twitter_failed">Failed to authorize your account.</string>
-    <string name="twitter_already">Already authorized.</string>
+    <string name="tweeted">Tweeted.</string>
+
+    <string name="error">Error</string>
 </resources>
