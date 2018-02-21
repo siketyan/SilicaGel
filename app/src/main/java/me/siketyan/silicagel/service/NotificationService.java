@@ -110,7 +110,7 @@ public class NotificationService extends NotificationListenerService {
                                 byte[] bitmap = bos.toByteArray();
                                 bs = new ByteArrayInputStream(bitmap);
                             } catch (Exception e) {
-                                notifyException(e);
+                                notifyException(NotificationService.this, e);
                             }
                         }
 
@@ -123,7 +123,7 @@ public class NotificationService extends NotificationListenerService {
                         Log.d(LOG_TAG, "[Tweeted] " + params[0]);
                         return true;
                     } catch (Exception e) {
-                        notifyException(e);
+                        notifyException(NotificationService.this, e);
                         e.printStackTrace();
 
                         Log.d(LOG_TAG, "[Error] Failed to tweet.");
@@ -142,7 +142,7 @@ public class NotificationService extends NotificationListenerService {
 
             task.execute(tweetText);
         } catch (Exception e) {
-            notifyException(e);
+            notifyException(this, e);
         }
     }
 
@@ -176,13 +176,13 @@ public class NotificationService extends NotificationListenerService {
         return null;
     }
 
-    private static void notifyException(Exception e){
+    private static void notifyException(Context context, Exception e){
         ((NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE))
             .notify(
                 NOTIFICATION_ID,
                 new Notification.Builder(getInstance())
                     .setSmallIcon(R.drawable.ic_error_black_24dp)
-                    .setContentTitle("Error!")
+                    .setContentTitle(context.getString(R.string.error))
                     .setContentText(e.toString())
                     .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
                     .build()

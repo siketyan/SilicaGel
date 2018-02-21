@@ -19,4 +19,6 @@
     <string name="twitter_authorized">認証しました。</string>
     <string name="twitter_failed">認証できませんでした。</string>
     <string name="tweeted">ツイートしました。</string>
+
+    <string name="error">エラー</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="twitter_authorized">Authorized your account.</string>
     <string name="twitter_failed">Failed to authorize your account.</string>
     <string name="tweeted">Tweeted.</string>
+
+    <string name="error">Error</string>
 </resources>
