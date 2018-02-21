@@ -11,8 +11,8 @@
     <string name="edit_template">Edit template of Tweets</string>
     <string name="with_cover">Tweet with album artwork</string>
 
+    <string name="template_default" formatted="false">🎵 %title%\n🎙️ %artist%\n💿 %album%\n#NowPlaying #Auto</string>
     <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name\n%y% - Year\n%m% - Month\n%d% - Day\n%h% - Hour\n%i% - Minute\n%s% - Second</string>
-    <string name="template_default" formatted="false">%title% - %artist%\n#NowPlaying #Auto</string>
 
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
