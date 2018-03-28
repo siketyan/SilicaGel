@@ -13,4 +13,5 @@
     <string name="cloudplayer">CloudPlayer</string>
     <string name="google_play_music">Google Play ミュージック</string>
     <string name="spotify">Spotify</string>
+    <string name="amazon">Amazon Music</string>
 </resources>

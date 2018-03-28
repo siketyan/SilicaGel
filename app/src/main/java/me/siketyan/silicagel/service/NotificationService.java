@@ -34,12 +34,14 @@ public class NotificationService extends NotificationListenerService {
     private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
     private static final String FILTER_PLAYMUSIC = "com.google.android.music";
     private static final String FILTER_SPOTIFY = "com.spotify.music";
+    private static final String FILTER_AMAZON = "com.amazon.mp3";
 
     private static final HashMap<String, String> PLAYER_LIST = new HashMap<String, String>() {
         {
             put(FILTER_CLOUDPLAYER, settingActivity.getString(R.string.cloudplayer));
             put(FILTER_PLAYMUSIC, settingActivity.getString(R.string.google_play_music));
             put(FILTER_SPOTIFY, settingActivity.getString(R.string.spotify));
+            put(FILTER_AMAZON, settingActivity.getString(R.string.amazon));
         }
     };
 
@@ -57,7 +59,8 @@ public class NotificationService extends NotificationListenerService {
         String packageName = sbn.getPackageName();
         if (!packageName.equals(FILTER_CLOUDPLAYER) &&
             !packageName.equals(FILTER_PLAYMUSIC) &&
-            !packageName.equals(FILTER_SPOTIFY)) return;
+            !packageName.equals(FILTER_SPOTIFY) &&
+            !packageName.equals(FILTER_AMAZON)) return;
 
         try {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
