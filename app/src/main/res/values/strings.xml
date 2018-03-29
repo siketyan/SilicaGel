@@ -15,6 +15,11 @@
     <string name="template_default" formatted="false">🎵 %title%\n🎙️ %artist%\n💿 %album%\n🎧 %player%\n#NowPlaying #Auto</string>
     <string name="template_dialog" formatted="false">%title% - Title\n%artist% - Artist name\n%album% - Album name\n%player% - Player name\n%y% - Year\n%m% - Month\n%d% - Day\n%h% - Hour\n%i% - Minute\n%s% - Second</string>
 
+    <string name="cloudplayer">CloudPlayer</string>
+    <string name="google_play_music">Google Play Music</string>
+    <string name="spotify">Spotify</string>
+    <string name="amazon">Amazon Music</string>
+
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
     <string name="twitter_failed">Failed to authorize your account.</string>
