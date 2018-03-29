@@ -15,6 +15,7 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
 import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.activity.SettingsActivity;
 import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -28,23 +29,34 @@ import java.util.Map;
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
+    private static final SettingsActivity settingActivity = SettingsActivity.getContext();
+
     private static final int NOTIFICATION_ID = 114514;
     private static final String LOG_TAG = "SilicaGel";
-    private static final Map<String, String> PLAYERS = new HashMap<>();
+    private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
+    private static final String FILTER_PLAYMUSIC = "com.google.android.music";
+    private static final String FILTER_SPOTIFY = "com.spotify.music";
+    private static final String FILTER_AMAZON = "com.amazon.mp3";
+
+    private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
+        {
+            put(FILTER_CLOUDPLAYER, settingActivity.getString(R.string.cloudplayer));
+            put(FILTER_PLAYMUSIC, settingActivity.getString(R.string.google_play_music));
+            put(FILTER_SPOTIFY, settingActivity.getString(R.string.spotify));
+            put(FILTER_AMAZON, settingActivity.getString(R.string.amazon));
+        }
+    };
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
 
     public NotificationService() {
         instance = this;
-
-        PLAYERS.put("CloudPlayer", "com.doubleTwist.cloudPlayer");
-        PLAYERS.put("Google Play Music", "com.google.android.music");
-        PLAYERS.put("Spotify", "com.spotify.music");
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        Log.d(LOG_TAG, "onNotificationPosted");
         String player = getPlayer(sbn.getPackageName());
         if (player == null) return;
 
@@ -81,16 +93,19 @@ public class NotificationService extends NotificationListenerService {
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
                     .replaceAll("%album%", album)
-                    .replaceAll("%player%", player)
+                    .replaceAll("%player%", player);
+
+            if (tweetText.equals(previous)) return;
+            previous = tweetText;
+
+            tweetText = tweetText
                     .replaceAll("%y%", String.format("%4d", year))
                     .replaceAll("%m%", String.format("%2d", month))
                     .replaceAll("%d%", String.format("%2d", day))
                     .replaceAll("%h%", String.format("%02d", hour))
                     .replaceAll("%i%", String.format("%02d", minute))
                     .replaceAll("%s%", String.format("%02d", second));
-
-            if (tweetText.equals(previous)) return;
-            previous = tweetText;
+            Log.d(LOG_TAG, "[Tweeting] " + tweetText);
 
             AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
                 @Override
@@ -141,6 +156,7 @@ public class NotificationService extends NotificationListenerService {
             };
 
             task.execute(tweetText);
+
         } catch (Exception e) {
             notifyException(this, e);
         }

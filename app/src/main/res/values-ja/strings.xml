@@ -15,6 +15,11 @@
     <string name="template_default" formatted="false">🎵 %title%\n🎙️ %artist%\n💿 %album%\n🎧 %player%\n#NowPlaying #自動</string>
     <string name="template_dialog" formatted="false">%title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名\n%player% - プレイヤー名\n%y% - 年\n%m% - 月\n%d% - 日\n%h% - 時\n%i% - 分\n%s% - 秒</string>
 
+    <string name="cloudplayer">CloudPlayer</string>
+    <string name="google_play_music">Google Play ミュージック</string>
+    <string name="spotify">Spotify</string>
+    <string name="amazon">Amazon Music</string>
+
     <string name="twitter_authorizing">認証しています…</string>
     <string name="twitter_authorized">認証しました。</string>
     <string name="twitter_failed">認証できませんでした。</string>
