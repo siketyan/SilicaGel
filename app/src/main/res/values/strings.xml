@@ -19,6 +19,7 @@
     <string name="google_play_music">Google Play Music</string>
     <string name="spotify">Spotify</string>
     <string name="amazon">Amazon Music</string>
+    <string name="sony">Sony Music</string>
 
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
