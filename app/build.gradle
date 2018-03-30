@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'org.twitter4j:twitter4j-core:4.0.1'
+    compile 'com.deploygate:sdk:4.1.0'
 }
