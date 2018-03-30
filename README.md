@@ -1,6 +1,9 @@
 # SilicaGel
-CloudPlayerの通知から曲の情報を取得し、今再生している曲についてツイートします。
-
+CloudPlayerの通知から曲の情報を取得し、今再生している曲についてツイートします。  
+  
+[![Get it on Google Play](https://dl.sikeserver.com/pub/google-play-badge.png)](https://play.google.com/store/apps/details?id=me.siketyan.silicagel)
+[![Try it on your device with DeployGate](https://dply.me/nr6yvg/button/large)](https://dply.me/nr6yvg#install)
+  
 ## How to Use
 1. ビルドするか、APKファイルをダウンロードしてインストールします。（要開発者モード）
 2. 起動します。通知へのアクセスが許可されてなければ自動で設定画面を表示します。
@@ -15,6 +18,7 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 - doubleTwist CloudPlayer
 - Google Play Music
 - Spotify
+- Amazon Music
 
 ## Required Libraries
 - Twitter4j Core 4.0.4

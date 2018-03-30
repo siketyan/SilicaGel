@@ -14,8 +14,8 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
+import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.activity.SettingsActivity;
 import me.siketyan.silicagel.util.TwitterUtil;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -29,8 +29,6 @@ import java.util.Map;
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
-    private static final SettingsActivity settingActivity = SettingsActivity.getContext();
-
     private static final int NOTIFICATION_ID = 114514;
     private static final String LOG_TAG = "SilicaGel";
     private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
@@ -38,12 +36,13 @@ public class NotificationService extends NotificationListenerService {
     private static final String FILTER_SPOTIFY = "com.spotify.music";
     private static final String FILTER_AMAZON = "com.amazon.mp3";
 
+    private static final Context APP = App.getContext();
     private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
         {
-            put(FILTER_CLOUDPLAYER, settingActivity.getString(R.string.cloudplayer));
-            put(FILTER_PLAYMUSIC, settingActivity.getString(R.string.google_play_music));
-            put(FILTER_SPOTIFY, settingActivity.getString(R.string.spotify));
-            put(FILTER_AMAZON, settingActivity.getString(R.string.amazon));
+            put(FILTER_CLOUDPLAYER, APP.getString(R.string.cloudplayer));
+            put(FILTER_PLAYMUSIC, APP.getString(R.string.google_play_music));
+            put(FILTER_SPOTIFY, APP.getString(R.string.spotify));
+            put(FILTER_AMAZON, APP.getString(R.string.amazon));
         }
     };
 
@@ -56,7 +55,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Log.d(LOG_TAG, "onNotificationPosted");
+        Log.d(LOG_TAG, "[Notification] " + sbn.getPackageName());
         String player = getPlayer(sbn.getPackageName());
         if (player == null) return;
 
@@ -180,13 +179,14 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         startService(new Intent(this, NotificationService.class));
     }
 
     private String getPlayer(String packageName) {
         for (String player : PLAYERS.keySet()) {
-            if (!packageName.equals(PLAYERS.get(player))) continue;
-            return player;
+            if (!packageName.equals(player)) continue;
+            return PLAYERS.get(player);
         }
 
         return null;
