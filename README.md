@@ -19,6 +19,7 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 - Google Play Music
 - Spotify
 - Amazon Music
+- Sony Music (%album% unsupported)
 
 ## Required Libraries
 - Twitter4j Core 4.0.4
