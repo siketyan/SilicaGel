@@ -78,13 +78,13 @@ public class NotificationService extends NotificationListenerService {
             int minute = calendar.get(Calendar.MINUTE);
             int second = calendar.get(Calendar.SECOND);
 
-            try {
-                title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-                artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
-                album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
-            } catch (NullPointerException e) {
-                Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
-            }
+            CharSequence titleSeq = extras.getCharSequence(Notification.EXTRA_TITLE);
+            CharSequence artistSeq = extras.getCharSequence(Notification.EXTRA_TEXT);
+            CharSequence albumSeq = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
+
+            if (titleSeq != null) title = titleSeq.toString();
+            if (artistSeq != null) artist = artistSeq.toString();
+            if (albumSeq != null) album = albumSeq.toString();
 
             if(title == null || title.isEmpty()) return;
 
