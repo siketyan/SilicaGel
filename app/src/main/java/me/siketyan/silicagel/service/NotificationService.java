@@ -35,6 +35,7 @@ public class NotificationService extends NotificationListenerService {
     private static final String FILTER_PLAYMUSIC = "com.google.android.music";
     private static final String FILTER_SPOTIFY = "com.spotify.music";
     private static final String FILTER_AMAZON = "com.amazon.mp3";
+    private static final String FILTER_SONY_MUSIC = "com.sonyericsson.music";
 
     private static final Context APP = App.getContext();
     private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
@@ -43,6 +44,7 @@ public class NotificationService extends NotificationListenerService {
             put(FILTER_PLAYMUSIC, APP.getString(R.string.google_play_music));
             put(FILTER_SPOTIFY, APP.getString(R.string.spotify));
             put(FILTER_AMAZON, APP.getString(R.string.amazon));
+            put(FILTER_SONY_MUSIC, APP.getString(R.string.sony));
         }
     };
 
