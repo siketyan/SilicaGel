@@ -31,22 +31,16 @@ public class NotificationService extends NotificationListenerService {
 
     private static final int NOTIFICATION_ID = 114514;
     private static final String LOG_TAG = "SilicaGel";
-    private static final String FILTER_CLOUDPLAYER = "com.doubleTwist.cloudPlayer";
-    private static final String FILTER_PLAYMUSIC = "com.google.android.music";
-    private static final String FILTER_SPOTIFY = "com.spotify.music";
-    private static final String FILTER_AMAZON = "com.amazon.mp3";
-    private static final String FILTER_SONY_MUSIC = "com.sonyericsson.music";
-    private static final String FILTER_ANIUTA = "jp.co.aniuta.android.aniutaap";
 
     private static final Context APP = App.getContext();
     private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
         {
-            put(FILTER_CLOUDPLAYER, APP.getString(R.string.cloudplayer));
-            put(FILTER_PLAYMUSIC, APP.getString(R.string.google_play_music));
-            put(FILTER_SPOTIFY, APP.getString(R.string.spotify));
-            put(FILTER_AMAZON, APP.getString(R.string.amazon));
-            put(FILTER_SONY_MUSIC, APP.getString(R.string.sony));
-            put(FILTER_ANIUTA, APP.getString(R.string.aniuta));
+            put("com.doubleTwist.cloudPlayer", APP.getString(R.string.cloudplayer));
+            put("com.google.android.music", APP.getString(R.string.google_play_music));
+            put("com.spotify.music", APP.getString(R.string.spotify));
+            put("com.amazon.mp3", APP.getString(R.string.amazon));
+            put("com.sonyericsson.music", APP.getString(R.string.sony));
+            put("jp.co.aniuta.android.aniutaap", APP.getString(R.string.aniuta));
         }
     };
 
