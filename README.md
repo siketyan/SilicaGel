@@ -5,7 +5,7 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 [![Try it on your device with DeployGate](https://dply.me/nr6yvg/button/large)](https://dply.me/nr6yvg#install)
   
 ## How to Use
-1. ビルドするか、APKファイルをダウンロードしてインストールします。（要開発者モード）
+1. ビルドするか、APKファイルをダウンロードしてインストールします。（「開発元不明のアプリ」を許可する必要があります。）
 2. 起動します。通知へのアクセスが許可されてなければ自動で設定画面を表示します。
 3. Twitterの認証をタップして、認証を行います。
 4. お好みに合わせて設定してください。
@@ -20,6 +20,8 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 - Spotify
 - Amazon Music
 - Sony Music (%album% unsupported)
+- ANiUTa
+- SoundCloud (%album% unsupported)
 
 ## Required Libraries
 - Twitter4j Core 4.0.4
