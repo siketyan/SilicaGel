@@ -41,6 +41,7 @@ public class NotificationService extends NotificationListenerService {
             put("com.amazon.mp3", APP.getString(R.string.amazon));
             put("com.sonyericsson.music", APP.getString(R.string.sony));
             put("jp.co.aniuta.android.aniutaap", APP.getString(R.string.aniuta));
+            put("com.soundcloud.android", APP.getString(R.string.soundcloud));
         }
     };
 
