@@ -20,6 +20,8 @@
     <string name="spotify">Spotify</string>
     <string name="amazon">Amazon Music</string>
     <string name="sony">Xperia Music</string>
+    <string name="aniuta">ANiUTa</string>
+    <string name="aimp">AIMP</string>
 
     <string name="twitter_authorizing">認証しています…</string>
     <string name="twitter_authorized">認証しました。</string>
@@ -27,4 +29,5 @@
     <string name="tweeted">ツイートしました。</string>
 
     <string name="error">エラー</string>
+    <string name="soundcloud">SoundCloud</string>
 </resources>
