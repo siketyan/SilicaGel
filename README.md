@@ -22,6 +22,7 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 - Sony Music (%album% unsupported)
 - ANiUTa
 - SoundCloud (%album% unsupported)
+- AIMP (%album% and album arts unsupported, %artist% will be the format of the file)
 
 ## Required Libraries
 - Twitter4j Core 4.0.4

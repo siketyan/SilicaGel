@@ -21,6 +21,7 @@
     <string name="amazon">Amazon Music</string>
     <string name="sony">Xperia Music</string>
     <string name="aniuta">ANiUTa</string>
+    <string name="aimp">AIMP</string>
 
     <string name="twitter_authorizing">Authorizing…</string>
     <string name="twitter_authorized">Authorized your account.</string>
