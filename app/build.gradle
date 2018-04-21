@@ -8,8 +8,8 @@ android {
         applicationId 'me.siketyan.silicagel'
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 6
-        versionName '1.4'
+        versionCode 7
+        versionName '1.5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
