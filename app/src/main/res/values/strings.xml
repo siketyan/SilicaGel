@@ -30,4 +30,17 @@
 
     <string name="error">Error</string>
     <string name="soundcloud">SoundCloud</string>
+
+    <string name="mastodon_auth">Authorize Mastodon account</string>
+    <string name="mastodon_authorizing">Authorizing…</string>
+    <string name="mastodon_authorized">Authorized your account.</string>
+    <string name="mastodon_failed">Failed to authorize your account.</string>
+    <string name="tooting">Tooting</string>
+    <string name="tooted">Tooted.</string>
+
+    <string name="privacy">Privacy setting</string>
+    <string name="privacy_public">Public</string>
+    <string name="privacy_unlisted">Unlisted</string>
+    <string name="privacy_private">Private</string>
+    <string name="privacy_direct">Direct</string>
 </resources>

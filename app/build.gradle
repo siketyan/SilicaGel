@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -8,8 +10,8 @@ android {
         applicationId 'me.siketyan.silicagel'
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 7
-        versionName '1.5'
+        versionCode 8
+        versionName '1.6'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,6 +34,8 @@ dependencies {
     implementation 'com.android.support:support-v4:25.4.0'
     implementation 'com.android.support:recyclerview-v7:25.4.0'
     testImplementation 'junit:junit:4.12'
-    implementation 'org.twitter4j:twitter4j-core:4.0.1'
+    implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation 'com.deploygate:sdk:4.1.0'
+    implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.6.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

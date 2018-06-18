@@ -14,16 +14,30 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.sys1yagi.mastodon4j.MastodonClient;
+import com.sys1yagi.mastodon4j.api.entity.Attachment;
+import com.sys1yagi.mastodon4j.api.method.Media;
+import com.sys1yagi.mastodon4j.api.method.Statuses;
+
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.util.MastodonUtil;
 import me.siketyan.silicagel.util.TwitterUtil;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NotificationService extends NotificationListenerService {
@@ -47,6 +61,12 @@ public class NotificationService extends NotificationListenerService {
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
+
+    private MastodonClient client;
+    private Statuses statuses;
+    private String instance_name;
+    private Media post_media;
+    private int privacy;
 
     public NotificationService() {
         instance = this;
@@ -154,6 +174,111 @@ public class NotificationService extends NotificationListenerService {
             };
 
             task.execute(tweetText);
+
+            AsyncTask<String, Void, Boolean> tootTask = new AsyncTask<String, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(String... params) {
+                    try {
+                        String privacy_value = pref.getString("privacy", "0");
+                        int privacy_i = Integer.parseInt(privacy_value);
+                        switch (privacy_i) {
+                            case 0:
+                                privacy = 0;
+                                break;
+                            case 1:
+                                privacy = 1;
+                                break;
+                            case 2:
+                                privacy = 2;
+                                break;
+                            case 3:
+                                privacy = 3;
+                                break;
+                        }
+                        instance_name = MastodonUtil.INSTANCE.getInstanceName(NotificationService.this);
+                        String access_token = MastodonUtil.INSTANCE.loadAccessToken(NotificationService.this);
+                        client = new MastodonClient.Builder(instance_name, new OkHttpClient.Builder(), new Gson())
+                                .accessToken(access_token)
+                                .build();
+                        statuses = MastodonUtil.INSTANCE.getStatuses(client);
+                        post_media = MastodonUtil.INSTANCE.getMedia(client);
+                        byte[] bitmap = null;
+                        if (pref.getBoolean("with_cover", false)) {
+                            try {
+                                Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
+                                if (thumb == null)
+                                    thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
+
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
+
+                                bitmap = bos.toByteArray();
+                            } catch (Exception e) {
+                                notifyException(NotificationService.this, e);
+                            }
+                        }
+
+                        if (bitmap != null) {
+                            List<Long> media_id = new ArrayList<Long>();
+                            MultipartBody.Part image = MultipartBody.Part.createFormData(
+                                    "file",
+                                    "cover.png",
+                                    RequestBody.create(MediaType.parse("image/jpeg"), bitmap));
+                            Attachment postmedia = post_media.postMedia(image).execute();
+                            long image_id = postmedia.getId();
+                            media_id.add(0, image_id);
+                            switch (privacy) {
+                                case 0:
+                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Public).execute();
+                                    break;
+                                case 1:
+                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Unlisted).execute();
+                                    break;
+                                case 2:
+                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Private).execute();
+                                    break;
+                                case 3:
+                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Direct).execute();
+                                    break;
+                            }
+                        } else {
+                            switch (privacy) {
+                                case 0:
+                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Public).execute();
+                                    break;
+                                case 1:
+                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Unlisted).execute();
+                                    break;
+                                case 2:
+                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Private).execute();
+                                    break;
+                                case 3:
+                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Direct).execute();
+                                    break;
+                            }
+                        }
+
+                        Log.d(LOG_TAG, "[Tooted] " + params[0]);
+                        return true;
+                    } catch (Exception e) {
+                        notifyException(NotificationService.this, e);
+                        e.printStackTrace();
+
+                        Log.d(LOG_TAG, "[Error] Failed to toot.");
+                        return false;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Boolean b) {
+                    if (pref.getBoolean("notify_tweeted", true)) {
+                        Toast.makeText(NotificationService.this, R.string.tooted, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }
+            };
+
+            tootTask.execute(tweetText);
 
         } catch (Exception e) {
             notifyException(this, e);

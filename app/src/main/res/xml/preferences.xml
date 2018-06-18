@@ -14,6 +14,16 @@
         <Preference android:key="delete_token"
                     android:title="@string/delete_token"
                     android:enabled="false" />
+        <Preference android:key="mastodon_auth"
+                    android:title="@string/mastodon_auth" />
+        <Preference android:enabled="false"
+                    android:key="delete_mastodon_token"
+                    android:title="@string/delete_token" />
+        <ListPreference android:entries="@array/entry_privacy"
+                    android:entryValues="@array/entry_privacy_values"
+                    android:key="privacy"
+                    android:summary=""
+                    android:title="@string/privacy" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/tweeting">
         <EditTextPreference android:key="template"
