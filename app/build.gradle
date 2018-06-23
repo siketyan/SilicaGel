@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -37,5 +35,4 @@ dependencies {
     implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation 'com.deploygate:sdk:4.1.0'
     implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.6.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

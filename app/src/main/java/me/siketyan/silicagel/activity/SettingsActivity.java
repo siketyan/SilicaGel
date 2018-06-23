@@ -32,6 +32,13 @@ public class SettingsActivity extends Activity {
     static final String CALLBACK_URL = "silicagel://twitter";
     Twitter twitter;
     RequestToken requestToken;
+
+    private static final String MASTODON_APP_NAME = "SilicaGel";
+    private static final String MASTODON_WEBSITE = "https://github.com/Siketyan/SilicaGel";
+    private static final String MASTODON_CALLBACK_URL = "silicagel://mastodon";
+    private MastodonClient mastodon;
+    Apps apps;
+    AppRegistration appRegistration;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,7 @@ public class SettingsActivity extends Activity {
         getFragmentManager().beginTransaction()
                             .replace(android.R.id.content, fragment)
                             .commit();
-    
+
         if (!NotificationService.isNotificationAccessEnabled) {
             startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         }
@@ -75,69 +82,63 @@ public class SettingsActivity extends Activity {
         
         task.execute();
     }
-    
-    public static SettingsActivity getContext() {
-        return context;
-    }
 
-    public void startMastodonAuthorize(final String instanceName) {
-        AsyncTask<Void, Void, AppRegistration> createAppTask = new AsyncTask<Void, Void, AppRegistration>() {
+    private void startMastodonAuthorize(final String instanceName) {
+        AsyncTask<Void, Void, Void> createAppTask = new AsyncTask<Void, Void, Void>() {
             @Override
-            protected AppRegistration doInBackground(Void... params) {
-                MastodonClient client = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson()).build();
-                Apps apps = new Apps(client);
+            protected Void doInBackground(Void... params) {
+                mastodon = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson()).build();
+                apps = new Apps(mastodon);
+
                 try {
-                    AppRegistration appRegistration = apps.createApp(
-                            "SilicaGel",
-                            "silicagel://mastodon",
+                    appRegistration = apps.createApp(
+                            MASTODON_APP_NAME,
+                            MASTODON_CALLBACK_URL,
                             new Scope(Scope.Name.WRITE),
-                            ""
+                            MASTODON_WEBSITE
                     ).execute();
-                    return appRegistration;
                 } catch (Mastodon4jRequestException e) {
                     e.printStackTrace();
                 }
+
                 return null;
             }
 
             @Override
-            protected void onPostExecute(AppRegistration result) {
-                if (result != null) {
-                    MastodonOauth(result);
-                }
+            protected void onPostExecute(Void param) {
+                String url = apps.getOAuthUrl(
+                    appRegistration.getClientId(),
+                    new Scope(Scope.Name.WRITE),
+                    appRegistration.getRedirectUri()
+                );
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
             }
         };
+
         createAppTask.execute();
     }
 
-    private void MastodonOauth(AppRegistration appRegistration) {
-        String instanceName = appRegistration.getInstanceName();
-        String clientId = appRegistration.getClientId();
-        String clientSecret = appRegistration.getClientSecret();
-        String redirectUri = appRegistration.getRedirectUri();
-        MastodonUtil.INSTANCE.storeApp(context, instanceName, clientId, clientSecret, redirectUri);
-        MastodonClient client = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson()).build();
-        Apps apps = new Apps(client);
-        String url = apps.getOAuthUrl(clientId, new Scope(Scope.Name.WRITE), redirectUri);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(intent);
+    public void MastodonLogin() {
+        final EditText editView = new EditText(this);
+        new AlertDialog.Builder(SettingsActivity.getContext())
+            .setTitle("インスタンスのURLを入力してください")
+            .setView(editView)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String instanceName = editView.getText().toString();
+                    startMastodonAuthorize(instanceName);
+                }
+            })
+            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            })
+            .show();
     }
 
-    public void MastodonLogin() {
-        final EditText editView = new EditText(SettingsActivity.getContext());
-        AlertDialog.Builder dialog = new AlertDialog.Builder(SettingsActivity.getContext());
-        dialog.setTitle("インスタンスのURLを入力してください");
-        dialog.setView(editView);
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String instanceName = editView.getText().toString();
-                startMastodonAuthorize(instanceName);
-            }
-        });
-        dialog.setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-        dialog.show();
+    public static SettingsActivity getContext() {
+        return context;
     }
 }

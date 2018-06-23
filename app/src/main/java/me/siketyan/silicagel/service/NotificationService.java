@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.entity.Attachment;
+import com.sys1yagi.mastodon4j.api.entity.Status;
 import com.sys1yagi.mastodon4j.api.method.Media;
 import com.sys1yagi.mastodon4j.api.method.Statuses;
 
@@ -64,8 +65,8 @@ public class NotificationService extends NotificationListenerService {
 
     private MastodonClient client;
     private Statuses statuses;
-    private String instance_name;
-    private Media post_media;
+    private String instanceName;
+    private Media postMedia;
     private int privacy;
 
     public NotificationService() {
@@ -195,13 +196,15 @@ public class NotificationService extends NotificationListenerService {
                                 privacy = 3;
                                 break;
                         }
-                        instance_name = MastodonUtil.INSTANCE.getInstanceName(NotificationService.this);
-                        String access_token = MastodonUtil.INSTANCE.loadAccessToken(NotificationService.this);
-                        client = new MastodonClient.Builder(instance_name, new OkHttpClient.Builder(), new Gson())
-                                .accessToken(access_token)
+
+                        instanceName = MastodonUtil.getInstanceName(NotificationService.this);
+                        String accessToken = MastodonUtil.loadAccessToken(NotificationService.this);
+                        client = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson())
+                                .accessToken(accessToken)
                                 .build();
-                        statuses = MastodonUtil.INSTANCE.getStatuses(client);
-                        post_media = MastodonUtil.INSTANCE.getMedia(client);
+                        statuses = MastodonUtil.getStatuses(client);
+                        postMedia = MastodonUtil.getMedia(client);
+
                         byte[] bitmap = null;
                         if (pref.getBoolean("with_cover", false)) {
                             try {
@@ -219,13 +222,13 @@ public class NotificationService extends NotificationListenerService {
                         }
 
                         if (bitmap != null) {
-                            List<Long> media_id = new ArrayList<Long>();
+                            List<Long> media_id = new ArrayList<>();
                             MultipartBody.Part image = MultipartBody.Part.createFormData(
                                     "file",
                                     "cover.png",
                                     RequestBody.create(MediaType.parse("image/jpeg"), bitmap));
-                            Attachment postmedia = post_media.postMedia(image).execute();
-                            long image_id = postmedia.getId();
+                            Attachment attachment = postMedia.postMedia(image).execute();
+                            long image_id = attachment.getId();
                             media_id.add(0, image_id);
                             switch (privacy) {
                                 case 0:
