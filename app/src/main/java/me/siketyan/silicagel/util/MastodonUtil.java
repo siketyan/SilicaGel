@@ -18,7 +18,7 @@ public class MastodonUtil {
             .Builder(getInstanceName(context), new OkHttpClient.Builder(), new Gson());
 
         if (withToken) {
-            builder.accessToken(loadAccessToken(context));
+            builder.accessToken(getAccessToken(context));
         }
 
         return builder.build();
@@ -47,12 +47,12 @@ public class MastodonUtil {
         editor.apply();
     }
 
-    private static String loadAccessToken(Context context) {
-        return getPreferences(context).getString("mastodon_token", null);
+    public static boolean hasAccessToken(Context context) {
+        return getAccessToken(context) != null;
     }
 
-    public static boolean hasAccessToken(Context context) {
-        return loadAccessToken(context) != null;
+    private static String getAccessToken(Context context) {
+        return getPreferences(context).getString("mastodon_token", null);
     }
 
     public static String getInstanceName(Context context) {

@@ -19,7 +19,7 @@ public class TwitterUtil {
         twitter.setOAuthConsumer(TwitterApi.CONSUMER_KEY, TwitterApi.CONSUMER_SECRET);
         
         if (hasAccessToken(context)) {
-            twitter.setOAuthAccessToken(loadAccessToken(context));
+            twitter.setOAuthAccessToken(getAccessToken(context));
         }
         
         return twitter;
@@ -46,7 +46,11 @@ public class TwitterUtil {
         editor.apply();
     }
 
-    public static RequestToken loadRequestToken(Context context) {
+    public static boolean hasAccessToken(Context context) {
+        return getAccessToken(context) != null;
+    }
+
+    public static RequestToken getRequestToken(Context context) {
         SharedPreferences pref = getPreferences(context);
         String token = pref.getString("twitter_request_token", null);
         String tokenSecret = pref.getString("twitter_request_secret", null);
@@ -58,7 +62,7 @@ public class TwitterUtil {
         }
     }
     
-    private static AccessToken loadAccessToken(Context context) {
+    private static AccessToken getAccessToken(Context context) {
         SharedPreferences pref = getPreferences(context);
         String token = pref.getString("twitter_token", null);
         String tokenSecret = pref.getString("twitter_secret", null);
@@ -68,9 +72,5 @@ public class TwitterUtil {
         } else {
             return null;
         }
-    }
-
-    public static boolean hasAccessToken(Context context) {
-        return loadAccessToken(context) != null;
     }
 }

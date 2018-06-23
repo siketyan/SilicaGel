@@ -25,7 +25,7 @@ public class TwitterAuthTask extends AsyncTask<Void, Void, AccessToken> {
         try {
             return TwitterUtil.getTwitterInstance(context)
                 .getOAuthAccessToken(
-                    TwitterUtil.loadRequestToken(context),
+                    TwitterUtil.getRequestToken(context),
                     verifier
                 );
         } catch (TwitterException e) {
