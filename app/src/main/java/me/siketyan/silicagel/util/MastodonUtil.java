@@ -46,8 +46,4 @@ public class MastodonUtil {
     public static Media getMedia(MastodonClient client) {
         return new Media(client);
     }
-
-    public static Public getInstances(MastodonClient client) {
-        return new Public(client);
-    }
 }
