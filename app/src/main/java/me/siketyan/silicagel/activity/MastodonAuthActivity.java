@@ -50,14 +50,14 @@ public class MastodonAuthActivity extends Activity {
             @Override
             protected void onPostExecute(AccessToken accessToken) {
                 if (accessToken != null) {
-                    showToast(getString(R.string.mastodon_authorized));
+                    showToast(getString(R.string.authorized));
                     MastodonUtil.storeApp(
                         SettingsActivity.getContext(),
                         appRegistration.getInstanceName(),
                         accessToken.getAccessToken()
                     );
                 } else {
-                    showToast(getString(R.string.mastodon_failed));
+                    showToast(getString(R.string.auth_failed));
                 }
 
                 startActivity(new Intent(MastodonAuthActivity.this, SettingsActivity.class));

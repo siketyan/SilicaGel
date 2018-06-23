@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.method.Media;
-import com.sys1yagi.mastodon4j.api.method.Public;
 import com.sys1yagi.mastodon4j.api.method.Statuses;
 
 public class MastodonUtil {
@@ -15,20 +14,20 @@ public class MastodonUtil {
 
     public static void storeApp(Context context, String instanceName, String accessToken) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putString("instance_name", instanceName);
-        editor.putString("mastodon_access_token", accessToken);
+        editor.putString("mastodon_instance", instanceName);
+        editor.putString("mastodon_token", accessToken);
         editor.apply();
     }
 
     public static void deleteApp(Context context) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.remove("instance_name");
-        editor.remove("mastodon_access_token");
+        editor.remove("mastodon_instance");
+        editor.remove("mastodon_token");
         editor.apply();
     }
 
     public static String loadAccessToken(Context context) {
-        return getPreferences(context).getString("mastodon_access_token", null);
+        return getPreferences(context).getString("mastodon_token", null);
     }
 
     public static boolean hasAccessToken(Context context) {
@@ -36,7 +35,7 @@ public class MastodonUtil {
     }
 
     public static String getInstanceName(Context context) {
-        return getPreferences(context).getString("instance_name", null);
+        return getPreferences(context).getString("mastodon_instance", null);
     }
 
     public static Statuses getStatuses(MastodonClient client) {

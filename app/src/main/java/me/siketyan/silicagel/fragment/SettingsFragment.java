@@ -20,7 +20,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if (TwitterUtil.hasAccessToken(SettingsActivity.getContext())) {
             findPreference("twitter_auth").setEnabled(false);
-            findPreference("delete_token").setEnabled(true);
+            findPreference("twitter_delete").setEnabled(true);
         }
 
         findPreference("twitter_auth")
@@ -34,7 +34,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
             );
 
-        findPreference("delete_token")
+        findPreference("twitter_delete")
             .setOnPreferenceClickListener(
                 new Preference.OnPreferenceClickListener() {
                     @Override
@@ -48,31 +48,31 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         if (MastodonUtil.hasAccessToken(SettingsActivity.getContext())) {
             findPreference("mastodon_auth").setEnabled(false);
-            findPreference("delete_mastodon_token").setEnabled(true);
+            findPreference("mastodon_delete").setEnabled(true);
         }
 
         findPreference("mastodon_auth")
-                .setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
-                            @Override
-                            public boolean onPreferenceClick(Preference pref) {
-                                SettingsActivity.getContext().MastodonLogin();
-                                return false;
-                            }
-                        }
-                );
+            .setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference pref) {
+                        SettingsActivity.getContext().MastodonLogin();
+                        return false;
+                    }
+                }
+            );
 
-        findPreference("delete_mastodon_token")
-                .setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
-                            @Override
-                            public boolean onPreferenceClick(Preference preference) {
-                                MastodonUtil.deleteApp(SettingsActivity.getContext());
-                                SettingsActivity.getContext().recreate();
-                                return false;
-                            }
-                        }
-                );
+        findPreference("mastodon_delete")
+            .setOnPreferenceClickListener(
+                new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        MastodonUtil.deleteApp(SettingsActivity.getContext());
+                        SettingsActivity.getContext().recreate();
+                        return false;
+                    }
+                }
+            );
 
         setPrivacySummary(PreferenceManager.getDefaultSharedPreferences(getActivity()));
     }
@@ -91,14 +91,14 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences pref, String key) {
-        if (key.equals("privacy")) {
+        if (key.equals("mastodon_privacy")) {
             setPrivacySummary(pref);
         }
     }
 
     private void setPrivacySummary(SharedPreferences pref) {
-        Preference listPref = findPreference("privacy");
-        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("privacy", "public"));
+        Preference listPref = findPreference("mastodon_privacy");
+        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
 
         if (privacy != null) {
             listPref.setSummary(privacy.getSummaryId());

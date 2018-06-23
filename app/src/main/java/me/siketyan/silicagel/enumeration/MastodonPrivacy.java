@@ -4,10 +4,10 @@ import com.sys1yagi.mastodon4j.api.entity.Status;
 import me.siketyan.silicagel.R;
 
 public enum MastodonPrivacy {
-    PUBLIC(R.string.privacy_public, "public", Status.Visibility.Public),
-    UNLISTED(R.string.privacy_unlisted, "unlisted", Status.Visibility.Unlisted),
-    PRIVATE(R.string.privacy_private, "private", Status.Visibility.Private),
-    DIRECT(R.string.privacy_direct, "direct", Status.Visibility.Direct);
+    PUBLIC(R.string.mastodon_privacy_public, "public", Status.Visibility.Public),
+    UNLISTED(R.string.mastodon_privacy_unlisted, "unlisted", Status.Visibility.Unlisted),
+    PRIVATE(R.string.mastodon_privacy_private, "private", Status.Visibility.Private),
+    DIRECT(R.string.mastodon_privacy_direct, "direct", Status.Visibility.Direct);
 
     private int summaryId;
     private String value;

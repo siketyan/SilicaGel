@@ -17,6 +17,7 @@ import com.sys1yagi.mastodon4j.api.entity.auth.AppRegistration;
 import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException;
 import com.sys1yagi.mastodon4j.api.method.Apps;
 
+import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.fragment.SettingsFragment;
 import me.siketyan.silicagel.service.NotificationService;
 import me.siketyan.silicagel.util.MastodonUtil;
@@ -123,15 +124,15 @@ public class SettingsActivity extends Activity {
     public void MastodonLogin() {
         final EditText editView = new EditText(this);
         new AlertDialog.Builder(SettingsActivity.getContext())
-            .setTitle("インスタンスのURLを入力してください")
+            .setTitle(R.string.mastodon_dialog_title)
             .setView(editView)
-            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.mastodon_dialog_positive, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String instanceName = editView.getText().toString();
                     startMastodonAuthorize(instanceName);
                 }
             })
-            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+            .setNegativeButton(R.string.mastodon_dialog_negative, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 }
             })

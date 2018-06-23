@@ -2,13 +2,26 @@
 <resources>
     <string name="general">一般</string>
     <string name="monitor_notifications">通知を監視する</string>
-    <string name="notify_tweeted">ツイート完了時にトーストで通知する</string>
+    <string name="notify_posted">投稿完了時にトーストで通知する</string>
 
     <string name="authorization">認証</string>
-    <string name="twitter_auth">Twitterアカウントの認証</string>
+
+    <string name="twitter">Twitter</string>
+    <string name="mastodon">Mastodon</string>
+    <string name="account_auth">アカウントの認証</string>
     <string name="delete_token">トークンの削除</string>
 
-    <string name="tweeting">ツイート</string>
+    <string name="mastodon_privacy">公開範囲</string>
+    <string name="mastodon_privacy_public">公開</string>
+    <string name="mastodon_privacy_unlisted">未収載</string>
+    <string name="mastodon_privacy_private">非公開</string>
+    <string name="mastodon_privacy_direct">ダイレクト</string>
+
+    <string name="mastodon_dialog_title">インスタンス URL (e.g. mstdn.jp)</string>
+    <string name="mastodon_dialog_positive">OK</string>
+    <string name="mastodon_dialog_negative">キャンセル</string>
+
+    <string name="posting">投稿</string>
     <string name="edit_template">ツイートテンプレートの編集</string>
     <string name="with_cover">アルバムアートワークを添付する</string>
 
@@ -22,25 +35,14 @@
     <string name="sony">Xperia Music</string>
     <string name="aniuta">ANiUTa</string>
     <string name="aimp">AIMP</string>
-
-    <string name="twitter_authorizing">認証しています…</string>
-    <string name="twitter_authorized">認証しました。</string>
-    <string name="twitter_failed">認証できませんでした。</string>
-    <string name="tweeted">ツイートしました。</string>
-
-    <string name="error">エラー</string>
     <string name="soundcloud">SoundCloud</string>
 
-    <string name="mastodon_auth">Mastodonアカウントの認証</string>
-    <string name="mastodon_authorizing">認証しています…</string>
-    <string name="mastodon_authorized">認証しました。</string>
-    <string name="mastodon_failed">認証できませんでした。</string>
-    <string name="tooting">トゥート</string>
+    <string name="authorizing">認証しています…</string>
+    <string name="authorized">認証しました。</string>
+    <string name="auth_failed">認証できませんでした。</string>
+
+    <string name="tweeted">ツイートしました。</string>
     <string name="tooted">トゥートしました。</string>
 
-    <string name="privacy">公開範囲</string>
-    <string name="privacy_public">公開</string>
-    <string name="privacy_unlisted">未収載</string>
-    <string name="privacy_private">非公開</string>
-    <string name="privacy_direct">ダイレクト</string>
+    <string name="error">エラー</string>
 </resources>

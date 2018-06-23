@@ -166,7 +166,7 @@ public class NotificationService extends NotificationListenerService {
 
                 @Override
                 protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_tweeted", true)) {
+                    if (pref.getBoolean("notify_posted", true)) {
                         Toast.makeText(NotificationService.this, R.string.tweeted, Toast.LENGTH_SHORT)
                              .show();
                     }
@@ -179,7 +179,7 @@ public class NotificationService extends NotificationListenerService {
                 @Override
                 protected Boolean doInBackground(String... params) {
                     try {
-                        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("privacy", "public"));
+                        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
 
                         instanceName = MastodonUtil.getInstanceName(NotificationService.this);
                         String accessToken = MastodonUtil.loadAccessToken(NotificationService.this);
@@ -247,7 +247,7 @@ public class NotificationService extends NotificationListenerService {
 
                 @Override
                 protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_tweeted", true)) {
+                    if (pref.getBoolean("notify_posted", true)) {
                         Toast.makeText(NotificationService.this, R.string.tooted, Toast.LENGTH_SHORT)
                                 .show();
                     }

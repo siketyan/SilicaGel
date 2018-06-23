@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="entry_privacy">
-        <item>@string/privacy_public</item>
-        <item>@string/privacy_unlisted</item>
-        <item>@string/privacy_private</item>
-        <item>@string/privacy_direct</item>
+        <item>@string/mastodon_privacy_public</item>
+        <item>@string/mastodon_privacy_unlisted</item>
+        <item>@string/mastodon_privacy_private</item>
+        <item>@string/mastodon_privacy_direct</item>
     </array>
     <string-array name="entry_privacy_values">
         <item>public</item>

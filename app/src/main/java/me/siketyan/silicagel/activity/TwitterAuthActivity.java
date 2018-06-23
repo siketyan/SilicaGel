@@ -43,10 +43,10 @@ public class TwitterAuthActivity extends Activity {
             @Override
             protected void onPostExecute(AccessToken accessToken) {
                 if (accessToken != null) {
-                    showToast(getString(R.string.twitter_authorized));
+                    showToast(getString(R.string.authorized));
                     TwitterUtil.storeAccessToken(SettingsActivity.getContext(), accessToken);
                 } else {
-                    showToast(getString(R.string.twitter_failed));
+                    showToast(getString(R.string.auth_failed));
                 }
             
                 startActivity(new Intent(TwitterAuthActivity.this, SettingsActivity.class));

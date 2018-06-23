@@ -4,28 +4,30 @@
         <SwitchPreference android:key="monitor_notifications"
                           android:title="@string/monitor_notifications"
                           android:defaultValue="true" />
-        <SwitchPreference android:key="notify_tweeted"
-                          android:title="@string/notify_tweeted"
+        <SwitchPreference android:key="notify_posted"
+                          android:title="@string/notify_posted"
                           android:defaultValue="true" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/authorization">
+    <PreferenceCategory android:title="@string/twitter">
         <Preference android:key="twitter_auth"
-                    android:title="@string/twitter_auth" />
-        <Preference android:key="delete_token"
+                    android:title="@string/account_auth" />
+        <Preference android:key="twitter_delete"
                     android:title="@string/delete_token"
                     android:enabled="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/mastodon">
         <Preference android:key="mastodon_auth"
-                    android:title="@string/mastodon_auth" />
+                    android:title="@string/account_auth" />
         <Preference android:enabled="false"
-                    android:key="delete_mastodon_token"
+                    android:key="mastodon_delete"
                     android:title="@string/delete_token" />
-        <ListPreference android:key="privacy"
-                    android:title="@string/privacy"
+        <ListPreference android:key="mastodon_privacy"
+                    android:title="@string/mastodon_privacy"
                     android:entries="@array/entry_privacy"
                     android:entryValues="@array/entry_privacy_values"
                     android:defaultValue="public" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/tweeting">
+    <PreferenceCategory android:title="@string/posting">
         <EditTextPreference android:key="template"
                             android:title="@string/edit_template"
                             android:defaultValue="@string/template_default"
