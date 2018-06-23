@@ -15,7 +15,6 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.entity.Attachment;
 import com.sys1yagi.mastodon4j.api.method.Media;
@@ -28,7 +27,6 @@ import me.siketyan.silicagel.util.MastodonUtil;
 import me.siketyan.silicagel.util.TwitterUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -65,7 +63,6 @@ public class NotificationService extends NotificationListenerService {
 
     private MastodonClient client;
     private Statuses statuses;
-    private String instanceName;
     private Media postMedia;
 
     public NotificationService() {
@@ -123,7 +120,6 @@ public class NotificationService extends NotificationListenerService {
                     .replaceAll("%h%", String.format("%02d", hour))
                     .replaceAll("%i%", String.format("%02d", minute))
                     .replaceAll("%s%", String.format("%02d", second));
-            Log.d(LOG_TAG, "[Tweeting] " + tweetText);
 
             AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
                 @Override
@@ -132,19 +128,7 @@ public class NotificationService extends NotificationListenerService {
                         Twitter twitter = TwitterUtil.getTwitterInstance(getInstance());
                         ByteArrayInputStream bs = null;
                         if (pref.getBoolean("with_cover", false)) {
-                            try {
-                                Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
-                                if (thumb == null)
-                                    thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
-
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
-
-                                byte[] bitmap = bos.toByteArray();
-                                bs = new ByteArrayInputStream(bitmap);
-                            } catch (Exception e) {
-                                notifyException(NotificationService.this, e);
-                            }
+                            bs = new ByteArrayInputStream(getBitmap(extras));
                         }
 
                         if (bs != null) {
@@ -166,7 +150,7 @@ public class NotificationService extends NotificationListenerService {
 
                 @Override
                 protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_posted", true)) {
+                    if (pref.getBoolean("notify_posted", true) && b) {
                         Toast.makeText(NotificationService.this, R.string.tweeted, Toast.LENGTH_SHORT)
                              .show();
                     }
@@ -180,59 +164,39 @@ public class NotificationService extends NotificationListenerService {
                 protected Boolean doInBackground(String... params) {
                     try {
                         MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
+                        if (privacy == null) {
+                            return false;
+                        }
 
-                        instanceName = MastodonUtil.getInstanceName(NotificationService.this);
-                        String accessToken = MastodonUtil.loadAccessToken(NotificationService.this);
-                        client = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson())
-                                .accessToken(accessToken)
-                                .build();
-                        statuses = MastodonUtil.getStatuses(client);
-                        postMedia = MastodonUtil.getMedia(client);
+                        client = MastodonUtil.getClient(getInstance(), true);
+                        statuses = new Statuses(client);
+                        postMedia = new Media(client);
 
                         byte[] bitmap = null;
                         if (pref.getBoolean("with_cover", false)) {
-                            try {
-                                Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
-                                if (thumb == null)
-                                    thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
-
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
-
-                                bitmap = bos.toByteArray();
-                            } catch (Exception e) {
-                                notifyException(NotificationService.this, e);
-                            }
+                            bitmap = getBitmap(extras);
                         }
 
+                        List<Long> mediaIds = new ArrayList<>();
                         if (bitmap != null) {
-                            List<Long> media_id = new ArrayList<>();
-                            MultipartBody.Part image = MultipartBody.Part.createFormData(
+                            Attachment attachment = postMedia.postMedia(
+                                MultipartBody.Part.createFormData(
                                     "file",
                                     "cover.png",
-                                    RequestBody.create(MediaType.parse("image/jpeg"), bitmap));
-                            Attachment attachment = postMedia.postMedia(image).execute();
-                            long image_id = attachment.getId();
-                            media_id.add(0, image_id);
-
-                            statuses.postStatus(
-                                params[0],
-                                null,
-                                media_id,
-                                false,
-                                null,
-                                privacy.getVisibility()
+                                    RequestBody.create(MediaType.parse("image/jpeg"), bitmap)
+                                )
                             ).execute();
-                        } else {
-                            statuses.postStatus(
-                                params[0],
-                                null,
-                                null,
-                                false,
-                                null,
-                                privacy.getVisibility()
-                            ).execute();
+                            mediaIds.add(0, attachment.getId());
                         }
+
+                        statuses.postStatus(
+                            params[0],
+                            null,
+                            mediaIds,
+                            false,
+                            null,
+                            privacy.getVisibility()
+                        ).execute();
 
                         Log.d(LOG_TAG, "[Tooted] " + params[0]);
                         return true;
@@ -247,9 +211,9 @@ public class NotificationService extends NotificationListenerService {
 
                 @Override
                 protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_posted", true)) {
+                    if (pref.getBoolean("notify_posted", true) && b) {
                         Toast.makeText(NotificationService.this, R.string.tooted, Toast.LENGTH_SHORT)
-                                .show();
+                             .show();
                     }
                 }
             };
@@ -287,6 +251,27 @@ public class NotificationService extends NotificationListenerService {
         for (String player : PLAYERS.keySet()) {
             if (!packageName.equals(player)) continue;
             return PLAYERS.get(player);
+        }
+
+        return null;
+    }
+
+    private byte[] getBitmap(Bundle extras) {
+        try {
+            Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
+
+            if (thumb == null) {
+                thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
+            }
+
+            if (thumb != null) {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
+
+                return bos.toByteArray();
+            }
+        } catch (Exception e) {
+            notifyException(NotificationService.this, e);
         }
 
         return null;

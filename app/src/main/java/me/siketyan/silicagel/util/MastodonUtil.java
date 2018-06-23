@@ -3,9 +3,9 @@ package me.siketyan.silicagel.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.google.gson.Gson;
 import com.sys1yagi.mastodon4j.MastodonClient;
-import com.sys1yagi.mastodon4j.api.method.Media;
-import com.sys1yagi.mastodon4j.api.method.Statuses;
+import okhttp3.OkHttpClient;
 
 public class MastodonUtil {
     private static SharedPreferences getPreferences(Context context) {
@@ -26,7 +26,7 @@ public class MastodonUtil {
         editor.apply();
     }
 
-    public static String loadAccessToken(Context context) {
+    private static String loadAccessToken(Context context) {
         return getPreferences(context).getString("mastodon_token", null);
     }
 
@@ -34,15 +34,18 @@ public class MastodonUtil {
         return loadAccessToken(context) != null;
     }
 
-    public static String getInstanceName(Context context) {
+    private static String getInstanceName(Context context) {
         return getPreferences(context).getString("mastodon_instance", null);
     }
 
-    public static Statuses getStatuses(MastodonClient client) {
-        return new Statuses(client);
-    }
+    public static MastodonClient getClient(Context context, boolean withToken) {
+        MastodonClient.Builder builder = new MastodonClient
+            .Builder(getInstanceName(context), new OkHttpClient.Builder(), new Gson());
 
-    public static Media getMedia(MastodonClient client) {
-        return new Media(client);
+        if (withToken) {
+            builder.accessToken(loadAccessToken(context));
+        }
+
+        return builder.build();
     }
 }

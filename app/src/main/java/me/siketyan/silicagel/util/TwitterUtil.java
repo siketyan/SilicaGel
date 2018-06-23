@@ -3,8 +3,6 @@ package me.siketyan.silicagel.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.activity.SettingsActivity;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.Scope;
 import com.sys1yagi.mastodon4j.api.entity.auth.AppRegistration;
@@ -22,7 +21,6 @@ import me.siketyan.silicagel.fragment.SettingsFragment;
 import me.siketyan.silicagel.service.NotificationService;
 import me.siketyan.silicagel.util.MastodonUtil;
 import me.siketyan.silicagel.util.TwitterUtil;
-import okhttp3.OkHttpClient;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
@@ -88,7 +86,7 @@ public class SettingsActivity extends Activity {
         AsyncTask<Void, Void, Void> createAppTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                mastodon = new MastodonClient.Builder(instanceName, new OkHttpClient.Builder(), new Gson()).build();
+                mastodon = MastodonUtil.getClient(getContext(), false);
                 apps = new Apps(mastodon);
 
                 try {
