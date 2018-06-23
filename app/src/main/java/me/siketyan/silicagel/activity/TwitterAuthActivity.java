@@ -2,13 +2,9 @@ package me.siketyan.silicagel.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
 import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.util.TwitterUtil;
-import twitter4j.TwitterException;
-import twitter4j.auth.AccessToken;
+import me.siketyan.silicagel.task.TwitterAuthTask;
 
 public class TwitterAuthActivity extends Activity {
     @Override
@@ -19,45 +15,13 @@ public class TwitterAuthActivity extends Activity {
         
         Intent intent = getIntent();
         if (intent == null || intent.getData() == null
-            || !intent.getData().toString().startsWith(SettingsActivity.CALLBACK_URL)) {
+            || !intent.getData().toString().startsWith(SettingsActivity.TWITTER_CALLBACK_URL)) {
             return;
         }
-        
-        String verifier = intent.getData().getQueryParameter("oauth_verifier");
-        AsyncTask<String, Void, AccessToken> task = new AsyncTask<String, Void, AccessToken>() {
-            @Override
-            protected AccessToken doInBackground(String... params) {
-                try {
-                    return SettingsActivity.getContext().twitter
-                                           .getOAuthAccessToken(
-                                                SettingsActivity.getContext().requestToken,
-                                                params[0]
-                                            );
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
-                
-                return null;
-            }
-        
-            @Override
-            protected void onPostExecute(AccessToken accessToken) {
-                if (accessToken != null) {
-                    showToast(getString(R.string.authorized));
-                    TwitterUtil.storeAccessToken(SettingsActivity.getContext(), accessToken);
-                } else {
-                    showToast(getString(R.string.auth_failed));
-                }
-            
-                startActivity(new Intent(TwitterAuthActivity.this, SettingsActivity.class));
-                finish();
-            }
-        };
-        
-        task.execute(verifier);
-    }
-    
-    public static void showToast(String text) {
-        Toast.makeText(SettingsActivity.getContext(), text, Toast.LENGTH_SHORT).show();
+
+        new TwitterAuthTask(
+            this,
+            intent.getData().getQueryParameter("oauth_verifier")
+        ).execute();
     }
 }

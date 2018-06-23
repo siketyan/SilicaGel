@@ -6,44 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.sys1yagi.mastodon4j.MastodonClient;
-import com.sys1yagi.mastodon4j.api.entity.Attachment;
-import com.sys1yagi.mastodon4j.api.method.Media;
-import com.sys1yagi.mastodon4j.api.method.Statuses;
 
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.enumeration.MastodonPrivacy;
-import me.siketyan.silicagel.util.MastodonUtil;
-import me.siketyan.silicagel.util.TwitterUtil;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
+import me.siketyan.silicagel.task.TootTask;
+import me.siketyan.silicagel.task.TweetTask;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
 
     private static final int NOTIFICATION_ID = 114514;
-    private static final String LOG_TAG = "SilicaGel";
+    public static final String LOG_TAG = "SilicaGel";
 
     private static final Context APP = App.getContext();
     private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
@@ -60,10 +44,6 @@ public class NotificationService extends NotificationListenerService {
 
     public static boolean isNotificationAccessEnabled = false;
     private String previous;
-
-    private MastodonClient client;
-    private Statuses statuses;
-    private Media postMedia;
 
     public NotificationService() {
         instance = this;
@@ -104,16 +84,16 @@ public class NotificationService extends NotificationListenerService {
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
 
-            String tweetText = pref.getString("template", "")
+            String text = pref.getString("template", "")
                     .replaceAll("%title%", title)
                     .replaceAll("%artist%", artist)
                     .replaceAll("%album%", album)
                     .replaceAll("%player%", player);
 
-            if (tweetText.equals(previous)) return;
-            previous = tweetText;
+            if (text.equals(previous)) return;
+            previous = text;
 
-            tweetText = tweetText
+            text = text
                     .replaceAll("%y%", String.format("%4d", year))
                     .replaceAll("%m%", String.format("%2d", month))
                     .replaceAll("%d%", String.format("%2d", day))
@@ -121,104 +101,13 @@ public class NotificationService extends NotificationListenerService {
                     .replaceAll("%i%", String.format("%02d", minute))
                     .replaceAll("%s%", String.format("%02d", second));
 
-            AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
-                @Override
-                protected Boolean doInBackground(String... params) {
-                    try {
-                        Twitter twitter = TwitterUtil.getTwitterInstance(getInstance());
-                        ByteArrayInputStream bs = null;
-                        if (pref.getBoolean("with_cover", false)) {
-                            bs = new ByteArrayInputStream(getBitmap(extras));
-                        }
+            byte[] bitmap = null;
+            if (pref.getBoolean("with_cover", false)) {
+                bitmap = getBitmap(extras);
+            }
 
-                        if (bs != null) {
-                            twitter.updateStatus(new StatusUpdate(params[0]).media("cover.png", bs));
-                        } else {
-                            twitter.updateStatus(params[0]);
-                        }
-
-                        Log.d(LOG_TAG, "[Tweeted] " + params[0]);
-                        return true;
-                    } catch (Exception e) {
-                        notifyException(NotificationService.this, e);
-                        e.printStackTrace();
-
-                        Log.d(LOG_TAG, "[Error] Failed to tweet.");
-                        return false;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_posted", true) && b) {
-                        Toast.makeText(NotificationService.this, R.string.tweeted, Toast.LENGTH_SHORT)
-                             .show();
-                    }
-                }
-            };
-
-            task.execute(tweetText);
-
-            AsyncTask<String, Void, Boolean> tootTask = new AsyncTask<String, Void, Boolean>() {
-                @Override
-                protected Boolean doInBackground(String... params) {
-                    try {
-                        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
-                        if (privacy == null) {
-                            return false;
-                        }
-
-                        client = MastodonUtil.getClient(getInstance(), true);
-                        statuses = new Statuses(client);
-                        postMedia = new Media(client);
-
-                        byte[] bitmap = null;
-                        if (pref.getBoolean("with_cover", false)) {
-                            bitmap = getBitmap(extras);
-                        }
-
-                        List<Long> mediaIds = new ArrayList<>();
-                        if (bitmap != null) {
-                            Attachment attachment = postMedia.postMedia(
-                                MultipartBody.Part.createFormData(
-                                    "file",
-                                    "cover.png",
-                                    RequestBody.create(MediaType.parse("image/jpeg"), bitmap)
-                                )
-                            ).execute();
-                            mediaIds.add(0, attachment.getId());
-                        }
-
-                        statuses.postStatus(
-                            params[0],
-                            null,
-                            mediaIds,
-                            false,
-                            null,
-                            privacy.getVisibility()
-                        ).execute();
-
-                        Log.d(LOG_TAG, "[Tooted] " + params[0]);
-                        return true;
-                    } catch (Exception e) {
-                        notifyException(NotificationService.this, e);
-                        e.printStackTrace();
-
-                        Log.d(LOG_TAG, "[Error] Failed to toot.");
-                        return false;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Boolean b) {
-                    if (pref.getBoolean("notify_posted", true) && b) {
-                        Toast.makeText(NotificationService.this, R.string.tooted, Toast.LENGTH_SHORT)
-                             .show();
-                    }
-                }
-            };
-
-            tootTask.execute(tweetText);
+            new TweetTask(this, pref, text, bitmap).execute();
+            new TootTask(this, pref, text, bitmap).execute();
 
         } catch (Exception e) {
             notifyException(this, e);
@@ -277,7 +166,7 @@ public class NotificationService extends NotificationListenerService {
         return null;
     }
 
-    private static void notifyException(Context context, Exception e) {
+    public static void notifyException(Context context, Exception e) {
         ((NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE))
             .notify(
                 NOTIFICATION_ID,
