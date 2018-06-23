@@ -17,7 +17,7 @@ public class MastodonAuthActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTheme(android.R.style.Theme_DeviceDefault_Light_DarkActionBar);
-        this.setContentView(R.layout.activity_twitterauth);
+        this.setContentView(R.layout.activity_authorizing);
 
         Intent intent = this.getIntent();
         if (intent == null || intent.getData() == null) {
