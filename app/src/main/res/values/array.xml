@@ -6,12 +6,10 @@
         <item>@string/privacy_private</item>
         <item>@string/privacy_direct</item>
     </array>
-
     <string-array name="entry_privacy_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>public</item>
+        <item>unlisted</item>
+        <item>private</item>
+        <item>direct</item>
     </string-array>
-
 </resources>

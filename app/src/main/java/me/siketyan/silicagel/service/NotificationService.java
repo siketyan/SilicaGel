@@ -18,12 +18,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.entity.Attachment;
-import com.sys1yagi.mastodon4j.api.entity.Status;
 import com.sys1yagi.mastodon4j.api.method.Media;
 import com.sys1yagi.mastodon4j.api.method.Statuses;
 
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.enumeration.MastodonPrivacy;
 import me.siketyan.silicagel.util.MastodonUtil;
 import me.siketyan.silicagel.util.TwitterUtil;
 import okhttp3.MediaType;
@@ -67,7 +67,6 @@ public class NotificationService extends NotificationListenerService {
     private Statuses statuses;
     private String instanceName;
     private Media postMedia;
-    private int privacy;
 
     public NotificationService() {
         instance = this;
@@ -180,22 +179,7 @@ public class NotificationService extends NotificationListenerService {
                 @Override
                 protected Boolean doInBackground(String... params) {
                     try {
-                        String privacy_value = pref.getString("privacy", "0");
-                        int privacy_i = Integer.parseInt(privacy_value);
-                        switch (privacy_i) {
-                            case 0:
-                                privacy = 0;
-                                break;
-                            case 1:
-                                privacy = 1;
-                                break;
-                            case 2:
-                                privacy = 2;
-                                break;
-                            case 3:
-                                privacy = 3;
-                                break;
-                        }
+                        MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("privacy", "public"));
 
                         instanceName = MastodonUtil.getInstanceName(NotificationService.this);
                         String accessToken = MastodonUtil.loadAccessToken(NotificationService.this);
@@ -230,35 +214,24 @@ public class NotificationService extends NotificationListenerService {
                             Attachment attachment = postMedia.postMedia(image).execute();
                             long image_id = attachment.getId();
                             media_id.add(0, image_id);
-                            switch (privacy) {
-                                case 0:
-                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Public).execute();
-                                    break;
-                                case 1:
-                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Unlisted).execute();
-                                    break;
-                                case 2:
-                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Private).execute();
-                                    break;
-                                case 3:
-                                    statuses.postStatus(params[0], null, media_id, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Direct).execute();
-                                    break;
-                            }
+
+                            statuses.postStatus(
+                                params[0],
+                                null,
+                                media_id,
+                                false,
+                                null,
+                                privacy.getVisibility()
+                            ).execute();
                         } else {
-                            switch (privacy) {
-                                case 0:
-                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Public).execute();
-                                    break;
-                                case 1:
-                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Unlisted).execute();
-                                    break;
-                                case 2:
-                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Private).execute();
-                                    break;
-                                case 3:
-                                    statuses.postStatus(params[0], null, null, false, null, com.sys1yagi.mastodon4j.api.entity.Status.Visibility.Direct).execute();
-                                    break;
-                            }
+                            statuses.postStatus(
+                                params[0],
+                                null,
+                                null,
+                                false,
+                                null,
+                                privacy.getVisibility()
+                            ).execute();
                         }
 
                         Log.d(LOG_TAG, "[Tooted] " + params[0]);

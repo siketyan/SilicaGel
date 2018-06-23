@@ -19,11 +19,11 @@
         <Preference android:enabled="false"
                     android:key="delete_mastodon_token"
                     android:title="@string/delete_token" />
-        <ListPreference android:entries="@array/entry_privacy"
+        <ListPreference android:key="privacy"
+                    android:title="@string/privacy"
+                    android:entries="@array/entry_privacy"
                     android:entryValues="@array/entry_privacy_values"
-                    android:key="privacy"
-                    android:summary=""
-                    android:title="@string/privacy" />
+                    android:defaultValue="public" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/tweeting">
         <EditTextPreference android:key="template"
