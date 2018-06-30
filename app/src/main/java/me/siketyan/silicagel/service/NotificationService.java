@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.session.MediaSession;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -71,14 +72,19 @@ public class NotificationService extends NotificationListenerService {
 
             final Bundle extras = sbn.getNotification().extras;
 
+            MediaSession.Token token = (MediaSession.Token) extras.get(Notification.EXTRA_MEDIA_SESSION);
             CharSequence titleSeq = extras.getCharSequence(Notification.EXTRA_TITLE);
             CharSequence artistSeq = extras.getCharSequence(Notification.EXTRA_TEXT);
             CharSequence albumSeq = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
 
-            if (titleSeq == null || artistSeq == null || albumSeq == null) return;
-            String title = titleSeq.toString();
-            String artist = artistSeq.toString();
-            String album = albumSeq.toString();
+            if (token == null) {
+                Log.d(LOG_TAG, "[Skipped] There is no media session.");
+                return;
+            }
+
+            String title = titleSeq != null ? titleSeq.toString() : "";
+            String artist = artistSeq != null ? artistSeq.toString() : "";
+            String album = albumSeq != null ? albumSeq.toString() : "";
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
 
