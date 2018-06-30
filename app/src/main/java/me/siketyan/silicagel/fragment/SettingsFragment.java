@@ -28,7 +28,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference pref) {
-                        SettingsActivity.getContext().startAuthorize();
+                        SettingsActivity.getContext().startTwitterAuthorize();
                         return false;
                     }
                 }
@@ -56,7 +56,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference pref) {
-                        SettingsActivity.getContext().MastodonLogin();
+                        SettingsActivity.getContext().startMastodonAuthorize();
                         return false;
                     }
                 }

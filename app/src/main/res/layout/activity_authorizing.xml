@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:id="@+id/textView"
-              android:text="@string/authorizing"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
-              android:fontFamily="sans-serif"
-              android:paddingTop="20dp" android:paddingBottom="10dp"
-              android:paddingLeft="15dp" android:paddingRight="15dp" />
-</LinearLayout>
+    <WebView android:id="@+id/webview"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" />
+    <ImageView android:id="@+id/progress_wrapper"
+               android:background="@drawable/circle"
+               android:contentDescription="@string/loading"
+               android:elevation="16dp"
+               android:layout_width="48dp"
+               android:layout_height="48dp"
+               android:layout_gravity="center">
+    </ImageView>
+    <ProgressBar android:id="@+id/progress"
+                 android:layout_width="32dp"
+                 android:layout_height="32dp"
+                 android:layout_gravity="center"
+                 android:translationZ="16dp" />
+</FrameLayout>
