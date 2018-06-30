@@ -14,10 +14,6 @@ CloudPlayerの通知から曲の情報を取得し、今再生している曲に
 ## Notes
 - このソフトウェアを利用したことでいかなる損害が発生しても、製作者は責任を負いません。
 
-## Compatible Social Services
-- Twitter
-- Mastodon
-
 ## Compatible Players
 - doubleTwist CloudPlayer
 - Google Play Music
