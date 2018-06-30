@@ -8,7 +8,6 @@ import android.widget.Toast;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.activity.SettingsActivity;
 import me.siketyan.silicagel.util.TwitterUtil;
-import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 
 public class TwitterAuthTask extends AsyncTask<Void, Void, AccessToken> {
@@ -28,7 +27,7 @@ public class TwitterAuthTask extends AsyncTask<Void, Void, AccessToken> {
                     TwitterUtil.getRequestToken(context),
                     verifier
                 );
-        } catch (TwitterException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
