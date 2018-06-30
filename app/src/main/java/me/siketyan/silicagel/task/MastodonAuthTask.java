@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.entity.auth.AccessToken;
-import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException;
 import com.sys1yagi.mastodon4j.api.method.Apps;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.activity.SettingsActivity;
@@ -35,7 +34,7 @@ public class MastodonAuthTask extends AsyncTask<Void, Void, AccessToken> {
                 authCode,
                 "authorization_code"
             ).execute();
-        } catch (Mastodon4jRequestException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
