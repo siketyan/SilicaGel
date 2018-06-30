@@ -164,16 +164,18 @@ public class NotificationService extends NotificationListenerService {
     }
 
     public static void notifyException(Context context, Exception e) {
-        ((NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE))
-            .notify(
-                NOTIFICATION_ID,
-                new Notification.Builder(getInstance())
-                    .setSmallIcon(R.drawable.ic_error_black_24dp)
-                    .setContentTitle(context.getString(R.string.error))
-                    .setContentText(e.toString())
-                    .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
-                    .build()
-            );
+        NotificationManager manager = (NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) return;
+
+        manager.notify(
+            NOTIFICATION_ID,
+            new Notification.Builder(getInstance())
+                .setSmallIcon(R.drawable.ic_error_black_24dp)
+                .setContentTitle(context.getString(R.string.error))
+                .setContentText(e.toString())
+                .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
+                .build()
+        );
     }
 
     private static String implode(StackTraceElement[] list, String glue) {
