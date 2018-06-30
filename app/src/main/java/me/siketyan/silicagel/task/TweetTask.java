@@ -43,7 +43,7 @@ public class TweetTask extends AsyncTask<Void, Void, Boolean> {
                 twitter.updateStatus(text);
             }
 
-            Log.d(NotificationService.LOG_TAG, "[Tweeted] " + params[0]);
+            Log.d(NotificationService.LOG_TAG, "[Tweeted] " + text);
             return true;
         } catch (Exception e) {
             NotificationService.notifyException(context, e);

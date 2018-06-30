@@ -68,7 +68,7 @@ public class TootTask extends AsyncTask<Void, Void, Boolean> {
                 privacy.getVisibility()
             ).execute();
 
-            Log.d(NotificationService.LOG_TAG, "[Tooted] " + params[0]);
+            Log.d(NotificationService.LOG_TAG, "[Tooted] " + text);
             return true;
         } catch (Exception e) {
             NotificationService.notifyException(context, e);
