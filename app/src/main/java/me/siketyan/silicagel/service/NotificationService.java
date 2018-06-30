@@ -82,9 +82,10 @@ public class NotificationService extends NotificationListenerService {
                 return;
             }
 
-            String title = titleSeq != null ? titleSeq.toString() : "";
-            String artist = artistSeq != null ? artistSeq.toString() : "";
-            String album = albumSeq != null ? albumSeq.toString() : "";
+            String unknown = getString(R.string.unknown);
+            String title = titleSeq != null ? titleSeq.toString() : unknown;
+            String artist = artistSeq != null ? artistSeq.toString() : unknown;
+            String album = albumSeq != null ? albumSeq.toString() : unknown;
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
 

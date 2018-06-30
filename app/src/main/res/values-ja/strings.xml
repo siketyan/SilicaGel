@@ -46,5 +46,6 @@
     <string name="tweeted">ツイートしました。</string>
     <string name="tooted">トゥートしました。</string>
 
+    <string name="unknown">不明</string>
     <string name="error">エラー</string>
 </resources>

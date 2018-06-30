@@ -46,5 +46,6 @@
     <string name="tweeted">Tweeted.</string>
     <string name="tooted">Tooted.</string>
 
+    <string name="unknown">Unknown</string>
     <string name="error">Error</string>
 </resources>
