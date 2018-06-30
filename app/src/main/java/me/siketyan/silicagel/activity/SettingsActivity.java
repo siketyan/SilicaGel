@@ -18,7 +18,7 @@ import me.siketyan.silicagel.util.MastodonUtil;
 public class SettingsActivity extends Activity {
     private static SettingsActivity context;
     
-    public static final String TWITTER_CALLBACK_URL = "silicagel://twitter";
+    public static final String TWITTER_CALLBACK_URL = "https://callback.sikeserver.com/silicagel";
     public static final String MASTODON_CALLBACK_URL = "silicagel://mastodon";
     public static final String MASTODON_APP_NAME = "SilicaGel";
     public static final String MASTODON_WEBSITE = "https://github.com/Siketyan/SilicaGel";
