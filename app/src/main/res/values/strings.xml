@@ -37,6 +37,7 @@
     <string name="aimp">AIMP</string>
     <string name="soundcloud">SoundCloud</string>
 
+    <string name="loading">Loading…</string>
     <string name="authorizing_twitter">Authorizing Twitter account</string>
     <string name="authorizing_mastodon">Authorizing Mastodon account</string>
     <string name="authorized">Authorized your account.</string>
