@@ -59,11 +59,6 @@ public class NotificationService extends NotificationListenerService {
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             if (!pref.getBoolean("monitor_notifications", true)) return;
 
-            final Bundle extras = sbn.getNotification().extras;
-            String title = "";
-            String artist = "";
-            String album = "";
-
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH) + 1;
@@ -72,15 +67,16 @@ public class NotificationService extends NotificationListenerService {
             int minute = calendar.get(Calendar.MINUTE);
             int second = calendar.get(Calendar.SECOND);
 
-            try {
-                title = extras.getCharSequence(Notification.EXTRA_TITLE).toString();
-                artist = extras.getCharSequence(Notification.EXTRA_TEXT).toString();
-                album = extras.getCharSequence(Notification.EXTRA_SUB_TEXT).toString();
-            } catch (NullPointerException e) {
-                Log.d(LOG_TAG, "[Error] Empty title, artist or album was provided.");
-            }
+            final Bundle extras = sbn.getNotification().extras;
 
-            if(title == null || title.isEmpty()) return;
+            CharSequence titleSeq = extras.getCharSequence(Notification.EXTRA_TITLE);
+            CharSequence artistSeq = extras.getCharSequence(Notification.EXTRA_TEXT);
+            CharSequence albumSeq = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
+
+            if (titleSeq == null || artistSeq == null || albumSeq == null) return;
+            String title = titleSeq.toString();
+            String artist = artistSeq.toString();
+            String album = albumSeq.toString();
 
             Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
 
