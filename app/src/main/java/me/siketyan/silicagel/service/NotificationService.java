@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -167,9 +168,16 @@ public class NotificationService extends NotificationListenerService {
         NotificationManager manager = (NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) return;
 
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder = new Notification.Builder(getInstance(), App.NOTIFICATION_CHANNEL_ERROR);
+        } else {
+            builder = new Notification.Builder(getInstance());
+        }
+
         manager.notify(
             NOTIFICATION_ID,
-            new Notification.Builder(getInstance())
+            builder
                 .setSmallIcon(R.drawable.ic_error_black_24dp)
                 .setContentTitle(context.getString(R.string.error))
                 .setContentText(e.toString())
