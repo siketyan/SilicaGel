@@ -189,18 +189,18 @@ public class NotificationService extends NotificationListenerService {
                 .setSmallIcon(R.drawable.ic_error_black_24dp)
                 .setContentTitle(context.getString(R.string.error))
                 .setContentText(e.toString())
-                .setStyle(new Notification.BigTextStyle().bigText(implode(e.getStackTrace(), "\n")))
+                .setStyle(new Notification.BigTextStyle().bigText(implodeStackTraces(e.getStackTrace())))
                 .build()
         );
     }
 
-    private static String implode(StackTraceElement[] list, String glue) {
+    private static String implodeStackTraces(StackTraceElement[] list) {
         StringBuilder sb = new StringBuilder();
         for (StackTraceElement e : list) {
-            sb.append(glue).append("at ").append(e.getClassName());
+            sb.append("\n").append("at ").append(e.getClassName());
         }
 
-        return sb.substring(glue.length());
+        return sb.substring(1);
     }
 
     private static NotificationService getInstance() {
