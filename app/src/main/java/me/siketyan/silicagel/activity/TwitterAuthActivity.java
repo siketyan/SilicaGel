@@ -7,7 +7,7 @@ import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.task.TwitterAuthRequestTask;
 
 public class TwitterAuthActivity extends Activity {
-    public static final String CALLBACK_URL = "https://callback.sikeserver.com/silicagel";
+    public static final String CALLBACK_URL = "https://callback.sikeserver.com/silicagel/twitter";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

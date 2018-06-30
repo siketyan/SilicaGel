@@ -18,10 +18,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https"
-                      android:host="callback.sikeserver.com"
-                      android:pathPrefix="/silicagel" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.MastodonAuthActivity"
@@ -29,8 +25,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="mastodon" android:scheme="silicagel" />
             </intent-filter>
         </activity>
         <service android:name=".service.NotificationService" android:label="SilicaGel"

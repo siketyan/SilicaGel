@@ -7,7 +7,7 @@ import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.task.MastodonAuthRequestTask;
 
 public class MastodonAuthActivity extends Activity {
-    public static final String CALLBACK_URL = "silicagel://mastodon";
+    public static final String CALLBACK_URL = "https://callback.sikeserver.com/silicagel/mastodon";
     public static final String APP_NAME = "SilicaGel";
     public static final String WEBSITE = "https://github.com/Siketyan/SilicaGel";
 
