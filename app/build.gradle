@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 25
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'me.siketyan.silicagel'
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 25
         versionCode 8
         versionName '1.6'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,9 +28,9 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support:support-v4:25.4.0'
+    implementation 'com.android.support:recyclerview-v7:25.4.0'
     testImplementation 'junit:junit:4.12'
     implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation 'com.deploygate:sdk:4.1.0'

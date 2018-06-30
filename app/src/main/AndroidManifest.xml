@@ -19,9 +19,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https"
-                      android:host="callback.sikeserver.com"
-                      android:pathPrefix="/silicagel" />
+                <data android:host="twitter" android:scheme="silicagel" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.MastodonAuthActivity"
