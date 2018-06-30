@@ -21,6 +21,7 @@ import me.siketyan.silicagel.task.TweetTask;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NotificationService extends NotificationListenerService {
@@ -90,12 +91,12 @@ public class NotificationService extends NotificationListenerService {
             previous = text;
 
             text = text
-                    .replaceAll("%y%", String.format("%4d", year))
-                    .replaceAll("%m%", String.format("%2d", month))
-                    .replaceAll("%d%", String.format("%2d", day))
-                    .replaceAll("%h%", String.format("%02d", hour))
-                    .replaceAll("%i%", String.format("%02d", minute))
-                    .replaceAll("%s%", String.format("%02d", second));
+                    .replaceAll("%y%", String.format(Locale.ROOT, "%4d", year))
+                    .replaceAll("%m%", String.format(Locale.ROOT, "%2d", month))
+                    .replaceAll("%d%", String.format(Locale.ROOT, "%2d", day))
+                    .replaceAll("%h%", String.format(Locale.ROOT, "%02d", hour))
+                    .replaceAll("%i%", String.format(Locale.ROOT, "%02d", minute))
+                    .replaceAll("%s%", String.format(Locale.ROOT, "%02d", second));
 
             byte[] bitmap = null;
             if (pref.getBoolean("with_cover", false)) {
