@@ -2,26 +2,21 @@ package me.siketyan.silicagel.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.widget.EditText;
 
+import android.widget.EditText;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.fragment.SettingsFragment;
 import me.siketyan.silicagel.service.NotificationService;
-import me.siketyan.silicagel.task.MastodonAuthRequestTask;
-import me.siketyan.silicagel.task.TwitterAuthRequestTask;
 import me.siketyan.silicagel.util.MastodonUtil;
 
 public class SettingsActivity extends Activity {
     private static SettingsActivity context;
-    
-    public static final String TWITTER_CALLBACK_URL = "https://callback.sikeserver.com/silicagel";
-    public static final String MASTODON_CALLBACK_URL = "silicagel://mastodon";
-    public static final String MASTODON_APP_NAME = "SilicaGel";
-    public static final String MASTODON_WEBSITE = "https://github.com/Siketyan/SilicaGel";
+    private EditText editView;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +35,25 @@ public class SettingsActivity extends Activity {
         }
     }
     
-    public void startAuthorize() {
-        new TwitterAuthRequestTask(this).execute();
+    public void startTwitterAuthorize() {
+        startActivity(new Intent(this, TwitterAuthActivity.class));
     }
 
-    private void startMastodonAuthorize(String instanceName) {
-        MastodonUtil.setInstanceName(this, instanceName);
-        new MastodonAuthRequestTask(this).execute();
-    }
-
-    public void MastodonLogin() {
-        final EditText editView = new EditText(this);
+    public void startMastodonAuthorize() {
+        editView = new EditText(this);
         new AlertDialog.Builder(SettingsActivity.getContext())
             .setTitle(R.string.mastodon_dialog_title)
             .setView(editView)
             .setPositiveButton(R.string.mastodon_dialog_positive, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String instanceName = editView.getText().toString();
-                    startMastodonAuthorize(instanceName);
+                    Context context = SettingsActivity.this;
+                    MastodonUtil.setInstanceName(context, instanceName);
+
+                    startActivity(new Intent(context, MastodonAuthActivity.class));
                 }
             })
-            .setNegativeButton(R.string.mastodon_dialog_negative, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                }
-            })
+            .setNegativeButton(R.string.mastodon_dialog_negative, null)
             .show();
     }
 

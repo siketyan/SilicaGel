@@ -37,7 +37,8 @@
     <string name="aimp">AIMP</string>
     <string name="soundcloud">SoundCloud</string>
 
-    <string name="authorizing">認証しています…</string>
+    <string name="authorizing_twitter">Twitterアカウントの認証</string>
+    <string name="authorizing_mastodon">Mastodonアカウントの認証</string>
     <string name="authorized">認証しました。</string>
     <string name="auth_failed">認証できませんでした。</string>
 

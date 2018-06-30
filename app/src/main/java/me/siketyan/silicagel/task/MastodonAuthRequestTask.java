@@ -1,22 +1,24 @@
 package me.siketyan.silicagel.task;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.webkit.WebView;
 import com.sys1yagi.mastodon4j.MastodonClient;
 import com.sys1yagi.mastodon4j.api.Scope;
 import com.sys1yagi.mastodon4j.api.entity.auth.AppRegistration;
 import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException;
 import com.sys1yagi.mastodon4j.api.method.Apps;
-import me.siketyan.silicagel.activity.SettingsActivity;
+import me.siketyan.silicagel.activity.MastodonAuthActivity;
+import me.siketyan.silicagel.util.AuthClient;
 import me.siketyan.silicagel.util.MastodonUtil;
 
 public class MastodonAuthRequestTask extends AsyncTask<Void, Void, String> {
     private Context context;
+    private WebView webView;
 
-    public MastodonAuthRequestTask(Context context) {
+    public MastodonAuthRequestTask(Context context, WebView webView) {
         this.context = context;
+        this.webView = webView;
     }
 
     @Override
@@ -26,10 +28,10 @@ public class MastodonAuthRequestTask extends AsyncTask<Void, Void, String> {
 
         try {
             AppRegistration appRegistration = apps.createApp(
-                SettingsActivity.MASTODON_APP_NAME,
-                SettingsActivity.MASTODON_CALLBACK_URL,
+                MastodonAuthActivity.APP_NAME,
+                MastodonAuthActivity.CALLBACK_URL,
                 new Scope(Scope.Name.WRITE),
-                SettingsActivity.MASTODON_WEBSITE
+                MastodonAuthActivity.WEBSITE
             ).execute();
             MastodonUtil.storeAppRegistration(context, appRegistration);
 
@@ -47,7 +49,10 @@ public class MastodonAuthRequestTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String uri) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        context.startActivity(intent);
+        if (uri != null) {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(new AuthClient(context));
+            webView.loadUrl(uri);
+        }
     }
 }

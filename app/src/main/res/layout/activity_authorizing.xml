@@ -3,12 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:id="@+id/textView"
-              android:text="@string/authorizing"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
-              android:fontFamily="sans-serif"
-              android:paddingTop="20dp" android:paddingBottom="10dp"
-              android:paddingLeft="15dp" android:paddingRight="15dp" />
+    <WebView android:id="@+id/webview"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_weight="1" />
 </LinearLayout>
