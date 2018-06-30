@@ -115,6 +115,7 @@ public class NotificationService extends NotificationListenerService {
 
         } catch (Exception e) {
             notifyException(this, e);
+            e.printStackTrace();
         }
     }
 
@@ -165,6 +166,7 @@ public class NotificationService extends NotificationListenerService {
             }
         } catch (Exception e) {
             notifyException(NotificationService.this, e);
+            e.printStackTrace();
         }
 
         return null;
