@@ -112,7 +112,6 @@ public class NotificationService extends NotificationListenerService {
 
             new TweetTask(this, pref, text, bitmap).execute();
             new TootTask(this, pref, text, bitmap).execute();
-
         } catch (Exception e) {
             notifyException(this, e);
             e.printStackTrace();
