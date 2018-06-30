@@ -28,6 +28,8 @@ public class TweetTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
+        if (!TwitterUtil.hasAccessToken(context)) return false;
+
         try {
             Twitter twitter = TwitterUtil.getTwitterInstance(context);
             ByteArrayInputStream bs = null;

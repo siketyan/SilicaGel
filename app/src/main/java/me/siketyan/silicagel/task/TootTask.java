@@ -35,6 +35,8 @@ public class TootTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
+        if (MastodonUtil.hasAccessToken(context)) return false;
+
         try {
             MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
             if (privacy == null) {
