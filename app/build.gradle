@@ -34,5 +34,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation 'com.deploygate:sdk:4.1.0'
-    implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.6.0'
+    implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.7.0'
 }
