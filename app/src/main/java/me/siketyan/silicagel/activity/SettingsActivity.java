@@ -11,20 +11,22 @@ import android.provider.Settings;
 import android.widget.EditText;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.fragment.SettingsFragment;
+import me.siketyan.silicagel.misskeyapi.Permission;
 import me.siketyan.silicagel.service.NotificationService;
 import me.siketyan.silicagel.util.MastodonUtil;
+import me.siketyan.silicagel.util.MisskeyUtil;
 
 public class SettingsActivity extends Activity {
     private static SettingsActivity context;
     private EditText editView;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
-        
+
         super.onCreate(savedInstanceState);
         setTheme(android.R.style.Theme_DeviceDefault_Light_DarkActionBar);
-        
+
         SettingsFragment fragment = new SettingsFragment();
         getFragmentManager().beginTransaction()
                             .replace(android.R.id.content, fragment)
@@ -34,7 +36,7 @@ public class SettingsActivity extends Activity {
             startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         }
     }
-    
+
     public void startTwitterAuthorize() {
         startActivity(new Intent(this, TwitterAuthActivity.class));
     }
@@ -44,7 +46,7 @@ public class SettingsActivity extends Activity {
         new AlertDialog.Builder(SettingsActivity.getContext())
             .setTitle(R.string.mastodon_dialog_title)
             .setView(editView)
-            .setPositiveButton(R.string.mastodon_dialog_positive, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String instanceName = editView.getText().toString();
                     Context context = SettingsActivity.this;
@@ -53,8 +55,26 @@ public class SettingsActivity extends Activity {
                     startActivity(new Intent(context, MastodonAuthActivity.class));
                 }
             })
-            .setNegativeButton(R.string.mastodon_dialog_negative, null)
+            .setNegativeButton(R.string.dialog_negative, null)
             .show();
+    }
+
+    public void startMisskeyAuthorize() {
+        editView = new EditText(this);
+        new AlertDialog.Builder(SettingsActivity.getContext())
+                .setTitle(R.string.misskey_dialog_title)
+                .setView(editView)
+                .setPositiveButton(R.string.dialog_positive, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String instanceName = editView.getText().toString();
+                        Context context = SettingsActivity.this;
+                        MisskeyUtil.setInstanceName(context, instanceName);
+
+                        startActivity(new Intent(context, MisskeyAuthActivity.class));
+                    }
+                })
+                .setNegativeButton(R.string.dialog_negative, null)
+                .show();
     }
 
     public static SettingsActivity getContext() {

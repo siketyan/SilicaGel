@@ -12,4 +12,19 @@
         <item>private</item>
         <item>direct</item>
     </string-array>
+
+    <array name="entry_privacy_misskey">
+        <item>@string/misskey_privacy_public</item>
+        <item>@string/misskey_privacy_home</item>
+        <item>@string/misskey_privacy_followers</item>
+        <!--<item>@string/misskey_privacy_specified</item>-->
+        <item>@string/misskey_privacy_private</item>
+    </array>
+    <string-array name="entry_privacy_values_misskey">
+        <item>public</item>
+        <item>home</item>
+        <item>followers</item>
+        <!--<item>specified</item>-->
+        <item>private</item>
+    </string-array>
 </resources>

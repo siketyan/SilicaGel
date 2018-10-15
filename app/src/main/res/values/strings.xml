@@ -8,6 +8,7 @@
 
     <string name="twitter">Twitter</string>
     <string name="mastodon">Mastodon</string>
+    <string name="misskey">Misskey</string>
     <string name="account_auth">Authorize account</string>
     <string name="delete_token">Delete authorized token</string>
 
@@ -17,9 +18,17 @@
     <string name="mastodon_privacy_private">Private</string>
     <string name="mastodon_privacy_direct">Direct</string>
 
+    <string name="misskey_privacy">Privacy</string>
+    <string name="misskey_privacy_public">Public</string>
+    <string name="misskey_privacy_home">Home</string>
+    <string name="misskey_privacy_followers">Followers</string>
+    <string name="misskey_privacy_specified">Specified</string>
+    <string name="misskey_privacy_private">Private</string>
+
     <string name="mastodon_dialog_title">Instance URL (e.g. mastodon.host)</string>
-    <string name="mastodon_dialog_positive">OK</string>
-    <string name="mastodon_dialog_negative">Cancel</string>
+    <string name="misskey_dialog_title">Instance URL (e.g. misskey.xyz)</string>
+    <string name="dialog_positive">OK</string>
+    <string name="dialog_negative">Cancel</string>
 
     <string name="posting">Posting</string>
     <string name="edit_template">Edit template of Tweets</string>
@@ -40,11 +49,15 @@
     <string name="loading">Loading…</string>
     <string name="authorizing_twitter">Authorizing Twitter account</string>
     <string name="authorizing_mastodon">Authorizing Mastodon account</string>
+    <string name="authorizing_misskey">Authorizing Misskey account</string>
     <string name="authorized">Authorized your account.</string>
     <string name="auth_failed">Failed to authorize your account.</string>
 
+    <string name="auth_misskey">Auth</string>
+
     <string name="tweeted">Tweeted.</string>
     <string name="tooted">Tooted.</string>
+    <string name="posted">Posted.</string>
 
     <string name="unknown">Unknown</string>
     <string name="error">Error</string>
