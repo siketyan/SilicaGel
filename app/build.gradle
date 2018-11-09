@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'deploygate'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -8,8 +9,8 @@ android {
         applicationId 'me.siketyan.silicagel'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 8
-        versionName '1.6'
+        versionCode 9
+        versionName '1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,5 +35,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'org.twitter4j:twitter4j-core:4.0.6'
     implementation 'com.deploygate:sdk:4.1.0'
-    implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.6.0'
+    implementation 'com.github.sys1yagi.mastodon4j:mastodon4j:1.7.0'
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }

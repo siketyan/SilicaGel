@@ -9,7 +9,9 @@ import android.preference.PreferenceManager;
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.activity.SettingsActivity;
 import me.siketyan.silicagel.enumeration.MastodonPrivacy;
+import me.siketyan.silicagel.enumeration.MisskeyPrivacy;
 import me.siketyan.silicagel.util.MastodonUtil;
+import me.siketyan.silicagel.util.MisskeyUtil;
 import me.siketyan.silicagel.util.TwitterUtil;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -74,7 +76,36 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 }
             );
 
+        if (MisskeyUtil.hasAccessToken(SettingsActivity.getContext())) {
+            findPreference("misskey_auth").setEnabled(false);
+            findPreference("misskey_delete").setEnabled(true);
+        }
+
+        findPreference("misskey_auth")
+                .setOnPreferenceClickListener(
+                        new Preference.OnPreferenceClickListener() {
+                            @Override
+                            public boolean onPreferenceClick(Preference pref) {
+                                SettingsActivity.getContext().startMisskeyAuthorize();
+                                return false;
+                            }
+                        }
+                );
+
+        findPreference("misskey_delete")
+                .setOnPreferenceClickListener(
+                        new Preference.OnPreferenceClickListener() {
+                            @Override
+                            public boolean onPreferenceClick(Preference preference) {
+                                MisskeyUtil.deleteApp(SettingsActivity.getContext());
+                                SettingsActivity.getContext().recreate();
+                                return false;
+                            }
+                        }
+                );
+
         setPrivacySummary(PreferenceManager.getDefaultSharedPreferences(getActivity()));
+        setMisskeyPrivacySummary(PreferenceManager.getDefaultSharedPreferences(getActivity()));
     }
 
     @Override
@@ -94,11 +125,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (key.equals("mastodon_privacy")) {
             setPrivacySummary(pref);
         }
+        if (key.equals("misskey_privacy")) {
+            setMisskeyPrivacySummary(pref);
+        }
     }
 
     private void setPrivacySummary(SharedPreferences pref) {
         Preference listPref = findPreference("mastodon_privacy");
         MastodonPrivacy privacy = MastodonPrivacy.getByValue(pref.getString("mastodon_privacy", "public"));
+
+        if (privacy != null) {
+            listPref.setSummary(privacy.getSummaryId());
+        }
+    }
+
+    private void setMisskeyPrivacySummary(SharedPreferences pref) {
+        Preference listPref = findPreference("misskey_privacy");
+        MisskeyPrivacy privacy = MisskeyPrivacy.getByValue(pref.getString("misskey_privacy", "public"));
 
         if (privacy != null) {
             listPref.setSummary(privacy.getSummaryId());

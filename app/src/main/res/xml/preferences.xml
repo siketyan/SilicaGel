@@ -27,6 +27,18 @@
                     android:entryValues="@array/entry_privacy_values"
                     android:defaultValue="public" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/misskey">
+        <Preference android:key="misskey_auth"
+            android:title="@string/account_auth" />
+        <Preference android:enabled="false"
+            android:key="misskey_delete"
+            android:title="@string/delete_token" />
+        <ListPreference android:key="misskey_privacy"
+            android:title="@string/misskey_privacy"
+            android:entries="@array/entry_privacy_misskey"
+            android:entryValues="@array/entry_privacy_values_misskey"
+            android:defaultValue="public" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/posting">
         <EditTextPreference android:key="template"
                             android:title="@string/edit_template"

@@ -17,6 +17,7 @@ import android.util.Log;
 
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
+import me.siketyan.silicagel.task.PostTask;
 import me.siketyan.silicagel.task.TootTask;
 import me.siketyan.silicagel.task.TweetTask;
 
@@ -42,6 +43,7 @@ public class NotificationService extends NotificationListenerService {
             put("com.sonyericsson.music", APP.getString(R.string.sony));
             put("jp.co.aniuta.android.aniutaap", APP.getString(R.string.aniuta));
             put("com.soundcloud.android", APP.getString(R.string.soundcloud));
+            put("com.apple.android.music", APP.getString(R.string.apple));
         }
     };
 
@@ -113,6 +115,7 @@ public class NotificationService extends NotificationListenerService {
 
             new TweetTask(this, pref, text, bitmap).execute();
             new TootTask(this, pref, text, bitmap).execute();
+            new PostTask(this, pref, text, bitmap).execute();
         } catch (Exception e) {
             notifyException(this, e);
             e.printStackTrace();
