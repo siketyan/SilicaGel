@@ -29,6 +29,10 @@ public class NotificationService extends NotificationListenerService {
 
     public NotificationService() {
         players = new HashMap<>();
+    }
+
+    @Override
+    public void onCreate() {
         players.put("com.doubleTwist.cloudPlayer", getString(R.string.cloudplayer));
         players.put("com.google.android.music", getString(R.string.google_play_music));
         players.put("com.spotify.music", getString(R.string.spotify));
