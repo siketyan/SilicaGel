@@ -61,7 +61,7 @@ public class SocialProxyBroadcastTask extends AsyncTask<Void, Void, Boolean> {
 
         Context context = contextRef.get();
         Toast
-            .makeText(context, R.string.tweeted, Toast.LENGTH_SHORT)
+            .makeText(context, R.string.broadcasted, Toast.LENGTH_SHORT)
             .show();
     }
 }
