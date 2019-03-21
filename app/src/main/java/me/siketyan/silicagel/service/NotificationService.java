@@ -17,15 +17,11 @@ import android.util.Log;
 
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.task.PostTask;
-import me.siketyan.silicagel.task.TootTask;
-import me.siketyan.silicagel.task.TweetTask;
+import me.siketyan.silicagel.task.SocialProxyBroadcastTask;
+import me.siketyan.silicagel.util.Logger;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class NotificationService extends NotificationListenerService {
     private static NotificationService instance;
@@ -113,9 +109,7 @@ public class NotificationService extends NotificationListenerService {
                 bitmap = getBitmap(extras);
             }
 
-            new TweetTask(this, pref, text, bitmap).execute();
-            new TootTask(this, pref, text, bitmap).execute();
-            new PostTask(this, pref, text, bitmap).execute();
+            new SocialProxyBroadcastTask(this, pref, text).execute();
         } catch (Exception e) {
             notifyException(this, e);
             e.printStackTrace();
@@ -125,7 +119,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public IBinder onBind(Intent i) {
         IBinder binder = super.onBind(i);
-        Log.d(LOG_TAG, "[Service] Enabled notification access.");
+        Logger.info("Enabled notification service.");
         isNotificationAccessEnabled = true;
         return binder;
     }
@@ -133,7 +127,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public boolean onUnbind(Intent i) {
         boolean onUnbind = super.onUnbind(i);
-        Log.d(LOG_TAG, "[Service] Disabled notification access.");
+        Logger.info("Disabled notification service.");
         isNotificationAccessEnabled = false;
         return onUnbind;
     }
