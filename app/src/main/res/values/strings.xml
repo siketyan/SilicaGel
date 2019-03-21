@@ -4,6 +4,10 @@
     <string name="monitor_notifications">Monitor notifications</string>
     <string name="notify_posted">Notify finished posting with toast</string>
 
+    <string name="accounts">Accounts</string>
+    <string name="manage_accounts">Manage accounts with Social Proxy</string>
+    <string name="social_proxy">Social Proxy</string>
+
     <string name="posting">Posting</string>
     <string name="edit_template">Edit template of Tweets</string>
     <string name="with_cover">Tweet with album artwork</string>
@@ -38,10 +42,8 @@
     <string name="soundcloud">SoundCloud</string>
     <string name="apple">Apple Music</string>
 
-    <string name="social_proxy">Social Proxy</string>
-
     <string name="loading">Loading…</string>
-    <string name="broadcasted">Broadcasted successfully.</string>
+    <string name="broadcasted">Broadcasted successfully</string>
 
     <string name="unknown">Unknown</string>
     <string name="error">Error</string>

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-
 import me.siketyan.silicagel.R;
 import me.siketyan.silicagel.activity.SocialProxyActivity;
 

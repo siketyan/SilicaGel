@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-
 import me.siketyan.silicagel.fragment.SettingsFragment;
 import me.siketyan.silicagel.service.NotificationService;
 

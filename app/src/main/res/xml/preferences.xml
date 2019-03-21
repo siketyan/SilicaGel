@@ -8,9 +8,9 @@
                           android:title="@string/notify_posted"
                           android:defaultValue="true" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Accounts">
+    <PreferenceCategory android:title="@string/accounts">
         <Preference android:key="manage_accounts"
-                    android:title="Manage accounts with Social Proxy" />
+                    android:title="@string/manage_accounts" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/posting">
         <EditTextPreference android:key="template"

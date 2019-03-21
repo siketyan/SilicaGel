@@ -14,32 +14,35 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.lang.ref.WeakReference;
+
 public class SocialProxyBroadcastTask extends AsyncTask<Void, Void, Boolean> {
-    private Context context;
+    private WeakReference<Context> contextRef;
     private SharedPreferences pref;
     private String text;
 
     public SocialProxyBroadcastTask(Context context, SharedPreferences pref, String text) {
-        this.context = context;
+        this.contextRef = new WeakReference<>(context);
         this.pref = pref;
         this.text = text;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
+        Context context = contextRef.get();
         if (!SocialProxyUtil.hasCookies(context)) {
             return false;
         }
 
         try {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                .url(SocialProxyActivity.API_BROADCAST_URL)
-                .header("Cookie", SocialProxyUtil.getSendCookie(context))
-                .post(RequestBody.create(MediaType.get("text/plain"), text))
-                .build();
-
-            client.newCall(request).execute();
+            new OkHttpClient()
+                .newCall(
+                    new Request.Builder()
+                        .url(SocialProxyActivity.API_BROADCAST_URL)
+                        .header("Cookie", SocialProxyUtil.getSendCookie(context))
+                        .post(RequestBody.create(MediaType.get("text/plain"), text))
+                        .build()
+                ).execute();
         } catch (Exception e) {
             NotificationService.notifyException(context, e);
             e.printStackTrace();
@@ -54,9 +57,11 @@ public class SocialProxyBroadcastTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-        if (pref.getBoolean("notify_posted", true) && result) {
-            Toast.makeText(context, R.string.tweeted, Toast.LENGTH_SHORT)
-                .show();
-        }
+        if (!pref.getBoolean("notify_posted", true) || !result) return;
+
+        Context context = contextRef.get();
+        Toast
+            .makeText(context, R.string.tweeted, Toast.LENGTH_SHORT)
+            .show();
     }
 }

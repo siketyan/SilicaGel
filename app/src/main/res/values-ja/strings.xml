@@ -4,37 +4,33 @@
     <string name="monitor_notifications">通知を監視する</string>
     <string name="notify_posted">投稿完了時にトーストで通知する</string>
 
-    <string name="authorization">認証</string>
-
-    <string name="twitter">Twitter</string>
-    <string name="mastodon">Mastodon</string>
-    <string name="account_auth">アカウントの認証</string>
-    <string name="delete_token">トークンの削除</string>
-
-    <string name="mastodon_privacy">公開範囲</string>
-    <string name="mastodon_privacy_public">公開</string>
-    <string name="mastodon_privacy_unlisted">未収載</string>
-    <string name="mastodon_privacy_private">非公開</string>
-    <string name="mastodon_privacy_direct">ダイレクト</string>
-
-    <string name="misskey_privacy">公開範囲</string>
-    <string name="misskey_privacy_public">公開</string>
-    <string name="misskey_privacy_home">ホーム</string>
-    <string name="misskey_privacy_followers">フォロワー</string>
-    <string name="misskey_privacy_specified">ダイレクト</string>
-    <string name="misskey_privacy_private">非公開</string>
-
-    <string name="mastodon_dialog_title">インスタンス URL (e.g. mstdn.jp)</string>
-    <string name="misskey_dialog_title">インスタンス URL (e.g. misskey.xyz)</string>
-    <string name="dialog_positive">OK</string>
-    <string name="dialog_negative">キャンセル</string>
+    <string name="accounts">アカウント</string>
+    <string name="manage_accounts">Social Proxyでアカウントを管理</string>
+    <string name="social_proxy">Social Proxy</string>
 
     <string name="posting">投稿</string>
     <string name="edit_template">ツイートテンプレートの編集</string>
     <string name="with_cover">アルバムアートワークを添付する</string>
 
-    <string name="template_default" formatted="false">🎵 %title%\n🎙️ %artist%\n💿 %album%\n🎧 %player%\n#NowPlaying #自動</string>
-    <string name="template_dialog" formatted="false">%title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名\n%player% - プレイヤー名\n%y% - 年\n%m% - 月\n%d% - 日\n%h% - 時\n%i% - 分\n%s% - 秒</string>
+    <string name="template_default" formatted="false">
+        🎵 %title%\n
+        🎙️ %artist%\n
+        💿 %album%\n
+        🎧 %player%\n
+        #NowPlaying #自動
+    </string>
+    <string name="template_dialog" formatted="false">
+        %title% - タイトル\n
+        %artist% - アーティスト名\n
+        %album% - アルバム名\n
+        %player% - プレイヤー名\n
+        %y% - 年\n
+        %m% - 月\n
+        %d% - 日\n
+        %h% - 時\n
+        %i% - 分\n
+        %s% - 秒
+    </string>
 
     <string name="cloudplayer">CloudPlayer</string>
     <string name="google_play_music">Google Play ミュージック</string>
@@ -47,17 +43,7 @@
     <string name="apple">Apple Music</string>
 
     <string name="loading">読み込み中…</string>
-    <string name="authorizing_twitter">Twitterアカウントの認証</string>
-    <string name="authorizing_mastodon">Mastodonアカウントの認証</string>
-    <string name="authorizing_misskey">Misskeyアカウントの認証</string>
-    <string name="authorized">認証しました。</string>
-    <string name="auth_failed">認証できませんでした。</string>
-
-    <string name="auth_misskey">認証</string>
-
-    <string name="tweeted">ツイートしました。</string>
-    <string name="tooted">トゥートしました。</string>
-    <string name="posted">投稿しました。</string>
+    <string name="broadcasted">投稿が完了しました</string>
 
     <string name="unknown">不明</string>
     <string name="error">エラー</string>

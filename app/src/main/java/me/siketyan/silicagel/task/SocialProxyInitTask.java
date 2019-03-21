@@ -9,21 +9,23 @@ import me.siketyan.silicagel.activity.SocialProxyActivity;
 import me.siketyan.silicagel.util.SocialProxyClient;
 import me.siketyan.silicagel.util.SocialProxyUtil;
 
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
 public class SocialProxyInitTask extends AsyncTask<Void, Void, Void> {
-    private Context context;
-    private WebView webView;
+    private WeakReference<Context> contextRef;
+    private WeakReference<WebView> webViewRef;
 
     public SocialProxyInitTask(Context context, WebView webView) {
-        this.context = context;
-        this.webView = webView;
+        this.contextRef = new WeakReference<>(context);
+        this.webViewRef = new WeakReference<>(webView);
     }
 
     @Override
     protected Void doInBackground(Void... params) {
+        Context context = contextRef.get();
         if (SocialProxyUtil.hasCookies(context)) {
             return null;
         }
@@ -43,6 +45,9 @@ public class SocialProxyInitTask extends AsyncTask<Void, Void, Void> {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onPostExecute(Void v) {
+        Context context = contextRef.get();
+        WebView webView = webViewRef.get();
+
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.setAcceptThirdPartyCookies(webView, true);

@@ -17,19 +17,10 @@ public class SocialProxyClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
+        if (!(context instanceof Activity)) return;
 
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            activity.findViewById(R.id.progress).setVisibility(View.INVISIBLE);
-            activity.findViewById(R.id.progress_wrapper).setVisibility(View.INVISIBLE);
-            if (activity.findViewById(R.id.auth_button) != null) {
-                activity.findViewById(R.id.auth_button).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.auth_button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-            }
-        }
+        Activity activity = (Activity) context;
+        activity.findViewById(R.id.progress).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.progress_wrapper).setVisibility(View.INVISIBLE);
     }
 }
