@@ -13,23 +13,10 @@
     <string name="with_cover">アルバムアートワークを添付する</string>
 
     <string name="template_default" formatted="false">
-        🎵 %title%\n
-        🎙️ %artist%\n
-        💿 %album%\n
-        🎧 %player%\n
-        #NowPlaying #自動
+        🎵 %title%\n🎙️ %artist%\n💿 %album%\n🎧 %player%\n#NowPlaying #自動
     </string>
     <string name="template_dialog" formatted="false">
-        %title% - タイトル\n
-        %artist% - アーティスト名\n
-        %album% - アルバム名\n
-        %player% - プレイヤー名\n
-        %y% - 年\n
-        %m% - 月\n
-        %d% - 日\n
-        %h% - 時\n
-        %i% - 分\n
-        %s% - 秒
+        %title% - タイトル\n%artist% - アーティスト名\n%album% - アルバム名\n%player% - プレイヤー名\n%y% - 年\n%m% - 月\n%d% - 日\n%h% - 時\n%i% - 分\n%s% - 秒
     </string>
 
     <string name="cloudplayer">CloudPlayer</string>
