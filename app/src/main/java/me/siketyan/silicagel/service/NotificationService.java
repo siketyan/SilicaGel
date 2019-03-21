@@ -5,117 +5,62 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.media.session.MediaSession;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
-
 import me.siketyan.silicagel.App;
 import me.siketyan.silicagel.R;
-import me.siketyan.silicagel.task.PostTask;
-import me.siketyan.silicagel.task.TootTask;
-import me.siketyan.silicagel.task.TweetTask;
+import me.siketyan.silicagel.model.Media;
+import me.siketyan.silicagel.task.SocialProxyBroadcastTask;
+import me.siketyan.silicagel.util.Logger;
+import me.siketyan.silicagel.util.TemplateParser;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class NotificationService extends NotificationListenerService {
-    private static NotificationService instance;
-
     private static final int NOTIFICATION_ID = 114514;
-    public static final String LOG_TAG = "SilicaGel";
-
-    private static final Context APP = App.getContext();
-    private static final Map<String, String> PLAYERS = new HashMap<String, String>() {
-        {
-            put("com.doubleTwist.cloudPlayer", APP.getString(R.string.cloudplayer));
-            put("com.google.android.music", APP.getString(R.string.google_play_music));
-            put("com.spotify.music", APP.getString(R.string.spotify));
-            put("com.amazon.mp3", APP.getString(R.string.amazon));
-            put("com.sonyericsson.music", APP.getString(R.string.sony));
-            put("jp.co.aniuta.android.aniutaap", APP.getString(R.string.aniuta));
-            put("com.soundcloud.android", APP.getString(R.string.soundcloud));
-            put("com.apple.android.music", APP.getString(R.string.apple));
-        }
-    };
 
     public static boolean isNotificationAccessEnabled = false;
-    private String previous;
+    private Map<String, String> players;
+    private Media previous;
 
     public NotificationService() {
-        instance = this;
+        players = new HashMap<>();
+    }
+
+    @Override
+    public void onCreate() {
+        players.put("com.doubleTwist.cloudPlayer", getString(R.string.cloudplayer));
+        players.put("com.google.android.music", getString(R.string.google_play_music));
+        players.put("com.spotify.music", getString(R.string.spotify));
+        players.put("com.amazon.mp3", getString(R.string.amazon));
+        players.put("com.sonyericsson.music", getString(R.string.sony));
+        players.put("jp.co.aniuta.android.aniutaap", getString(R.string.aniuta));
+        players.put("com.soundcloud.android", getString(R.string.soundcloud));
+        players.put("com.apple.android.music", getString(R.string.apple));
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Log.d(LOG_TAG, "[Notification] " + sbn.getPackageName());
+        Logger.debug("Notification posted from " + sbn.getPackageName());
         String player = getPlayer(sbn.getPackageName());
         if (player == null) return;
 
         try {
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             if (!pref.getBoolean("monitor_notifications", true)) return;
 
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH) + 1;
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            int second = calendar.get(Calendar.SECOND);
+            Media media = Media.create(this, sbn.getNotification());
+            if (media == null || media.equals(previous)) return;
+            previous = media;
 
-            final Bundle extras = sbn.getNotification().extras;
+            String template = pref.getString("template", "");
+            String text = TemplateParser.parse(template, media, player);
 
-            MediaSession.Token token = (MediaSession.Token) extras.get(Notification.EXTRA_MEDIA_SESSION);
-            CharSequence titleSeq = extras.getCharSequence(Notification.EXTRA_TITLE);
-            CharSequence artistSeq = extras.getCharSequence(Notification.EXTRA_TEXT);
-            CharSequence albumSeq = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
-
-            if (token == null) {
-                Log.d(LOG_TAG, "[Skipped] There is no media session.");
-                return;
-            }
-
-            String unknown = getString(R.string.unknown);
-            String title = titleSeq != null ? titleSeq.toString() : unknown;
-            String artist = artistSeq != null ? artistSeq.toString() : unknown;
-            String album = albumSeq != null ? albumSeq.toString() : unknown;
-
-            Log.d(LOG_TAG, "[Playing] " + title + " - " + artist + " (" + album + ") on " + player);
-
-            String text = pref.getString("template", "")
-                    .replaceAll("%title%", title)
-                    .replaceAll("%artist%", artist)
-                    .replaceAll("%album%", album)
-                    .replaceAll("%player%", player);
-
-            if (text.equals(previous)) return;
-            previous = text;
-
-            text = text
-                    .replaceAll("%y%", String.format(Locale.ROOT, "%4d", year))
-                    .replaceAll("%m%", String.format(Locale.ROOT, "%2d", month))
-                    .replaceAll("%d%", String.format(Locale.ROOT, "%2d", day))
-                    .replaceAll("%h%", String.format(Locale.ROOT, "%02d", hour))
-                    .replaceAll("%i%", String.format(Locale.ROOT, "%02d", minute))
-                    .replaceAll("%s%", String.format(Locale.ROOT, "%02d", second));
-
-            byte[] bitmap = null;
-            if (pref.getBoolean("with_cover", false)) {
-                bitmap = getBitmap(extras);
-            }
-
-            new TweetTask(this, pref, text, bitmap).execute();
-            new TootTask(this, pref, text, bitmap).execute();
-            new PostTask(this, pref, text, bitmap).execute();
+            new SocialProxyBroadcastTask(this, pref, text).execute();
         } catch (Exception e) {
             notifyException(this, e);
             e.printStackTrace();
@@ -125,7 +70,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public IBinder onBind(Intent i) {
         IBinder binder = super.onBind(i);
-        Log.d(LOG_TAG, "[Service] Enabled notification access.");
+        Logger.info("Enabled notification service.");
         isNotificationAccessEnabled = true;
         return binder;
     }
@@ -133,7 +78,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public boolean onUnbind(Intent i) {
         boolean onUnbind = super.onUnbind(i);
-        Log.d(LOG_TAG, "[Service] Disabled notification access.");
+        Logger.info("Disabled notification service.");
         isNotificationAccessEnabled = false;
         return onUnbind;
     }
@@ -145,45 +90,24 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private String getPlayer(String packageName) {
-        for (String player : PLAYERS.keySet()) {
+        for (String player : players.keySet()) {
             if (!packageName.equals(player)) continue;
-            return PLAYERS.get(player);
+            return players.get(player);
         }
 
         return null;
     }
 
-    private byte[] getBitmap(Bundle extras) {
-        try {
-            Bitmap thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
-
-            if (thumb == null) {
-                thumb = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON_BIG);
-            }
-
-            if (thumb != null) {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                thumb.compress(Bitmap.CompressFormat.PNG, 0, bos);
-
-                return bos.toByteArray();
-            }
-        } catch (Exception e) {
-            notifyException(NotificationService.this, e);
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
+    @SuppressWarnings("deprecation")
     public static void notifyException(Context context, Exception e) {
-        NotificationManager manager = (NotificationManager) getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) return;
 
         Notification.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder = new Notification.Builder(getInstance(), App.NOTIFICATION_CHANNEL_ERROR);
+            builder = new Notification.Builder(context, App.NOTIFICATION_CHANNEL_ERROR);
         } else {
-            builder = new Notification.Builder(getInstance());
+            builder = new Notification.Builder(context);
         }
 
         manager.notify(
@@ -204,9 +128,5 @@ public class NotificationService extends NotificationListenerService {
         }
 
         return sb.substring(1);
-    }
-
-    private static NotificationService getInstance() {
-        return instance;
     }
 }

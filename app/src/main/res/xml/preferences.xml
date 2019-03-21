@@ -8,36 +8,9 @@
                           android:title="@string/notify_posted"
                           android:defaultValue="true" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/twitter">
-        <Preference android:key="twitter_auth"
-                    android:title="@string/account_auth" />
-        <Preference android:key="twitter_delete"
-                    android:title="@string/delete_token"
-                    android:enabled="false" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/mastodon">
-        <Preference android:key="mastodon_auth"
-                    android:title="@string/account_auth" />
-        <Preference android:enabled="false"
-                    android:key="mastodon_delete"
-                    android:title="@string/delete_token" />
-        <ListPreference android:key="mastodon_privacy"
-                    android:title="@string/mastodon_privacy"
-                    android:entries="@array/entry_privacy"
-                    android:entryValues="@array/entry_privacy_values"
-                    android:defaultValue="public" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/misskey">
-        <Preference android:key="misskey_auth"
-            android:title="@string/account_auth" />
-        <Preference android:enabled="false"
-            android:key="misskey_delete"
-            android:title="@string/delete_token" />
-        <ListPreference android:key="misskey_privacy"
-            android:title="@string/misskey_privacy"
-            android:entries="@array/entry_privacy_misskey"
-            android:entryValues="@array/entry_privacy_values_misskey"
-            android:defaultValue="public" />
+    <PreferenceCategory android:title="@string/accounts">
+        <Preference android:key="manage_accounts"
+                    android:title="@string/manage_accounts" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/posting">
         <EditTextPreference android:key="template"
