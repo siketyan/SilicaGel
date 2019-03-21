@@ -36,6 +36,8 @@ public class Media {
     }
 
     public boolean equals(Media media) {
+        if (media == null) return false;
+
         return
             title.equals(media.title) &&
             artist.equals(media.artist) &&
