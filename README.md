@@ -1,7 +1,6 @@
 # SilicaGel
 CloudPlayerの通知から曲の情報を取得し、今再生している曲についてツイートします。  
-  
-[![Get it on Google Play](https://dl.sikeserver.com/pub/google-play-badge.png)](https://play.google.com/store/apps/details?id=me.siketyan.silicagel)
+
 [![Try it on your device with DeployGate](https://dply.me/nr6yvg/button/large)](https://dply.me/nr6yvg#install)
   
 ## How to Use
