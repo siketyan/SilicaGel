@@ -3,7 +3,7 @@ apply plugin: 'deploygate'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId 'me.siketyan.silicagel'
         minSdkVersion 23
