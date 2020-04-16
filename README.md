@@ -1,3 +1,8 @@
+### ⚠ Deprecation Warning
+This repository is no longer maintained.
+
+<br>
+
 # SilicaGel
 CloudPlayerの通知から曲の情報を取得し、今再生している曲についてツイートします。  
 
